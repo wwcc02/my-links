@@ -962,9 +962,10 @@
       });
     })();
 
-    /* 訪客計數器 */
+    /* 訪客計數器（已加上防快取時間戳記，確保跨瀏覽器更靈敏） */
     (function() {
-      fetch('https://api.counterapi.dev/v1/claen_dark_castle/visits/up')
+      const cacheBuster = new Date().getTime();
+      fetch(`https://api.counterapi.dev/v1/claen_dark_castle/visits/up?t=${cacheBuster}`)
         .then(response => response.json())
         .then(data => {
           if (data && typeof data.count !== 'undefined') {
