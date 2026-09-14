@@ -28,7 +28,25 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 2. 【古早味十字星飄落樣式】 */
+    /* 2. 【第二層透明圖片背景疊加層（調暗版）】 */
+    /* ----------------------------------------------------- */
+    .second-layer-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('https://files.catbox.moe/d1f5qq.png');
+      background-size: cover; 
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.18; /* 若隱若現的暗色浮水印 */
+      pointer-events: none; /* 滑鼠點擊穿透，不干擾網頁互動 */
+      z-index: 2; /* 壓在純黑背景之上、其他UI元件之下 */
+    }
+
+    /* ----------------------------------------------------- */
+    /* 3. 【古早味十字星飄落樣式】 */
     /* ----------------------------------------------------- */
     @keyframes retroBlink {
       0%, 100% { transform: scale(0.3); opacity: 0; }
@@ -50,7 +68,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 3. 【全頁頂部 Header 標題樣式】 */
+    /* 4. 【全頁頂部 Header 標題樣式】 */
     /* ----------------------------------------------------- */
     .castle-header {
       width: 100%;
@@ -80,7 +98,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 4. 【Flexbox 三欄式排版（微霧玻璃樣式）】 */
+    /* 5. 【Flexbox 三欄式排版（微霧玻璃樣式）】 */
     /* ----------------------------------------------------- */
     .main-castle-container {
       width: 100%;
@@ -100,7 +118,7 @@
       max-width: 330px;
       height: 520px;             
       border: 2px solid #ffffff;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       display: flex;
@@ -116,12 +134,11 @@
     .left-art-block img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* 圖片填滿框框，裁切多餘部分 */
+      object-fit: cover;
       display: block;
       cursor: none !important;
     }
 
-    /* 圖片切換按鈕微調 */
     .art-nav-btn {
       position: absolute;
       bottom: 10px;
@@ -144,7 +161,6 @@
     #prevArt { left: 10px; }
     #nextArt { right: 10px; }
 
-    /* 全圖放大提示字樣 */
     .zoom-hint {
       position: absolute;
       top: 10px;
@@ -160,7 +176,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 5. 【全螢幕燈箱 (Lightbox) 檢視器】（z-index 設為 9000 讓游標維持在最上層） */
+    /* 6. 【全螢幕燈箱 (Lightbox) 檢視器】 */
     /* ----------------------------------------------------- */
     #lightbox-modal {
       position: fixed;
@@ -231,13 +247,13 @@
       letter-spacing: 2px;
     }
 
-    /* 中欄：自介與超連結（微霧透光） */
+    /* 中欄：自介與超連結 */
     .center-text-block {
       flex: 1.2;
       max-width: 420px;
       height: 520px;             
       border: 2px solid #ffffff;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       padding: 20px 24px;
@@ -259,13 +275,13 @@
       background: #ffffff;
     }
 
-    /* 右欄：即時狀態、Cbox 留言板與 5 位數自設計數器（微霧透光） */
+    /* 右欄：即時狀態、Cbox 留言板與計數器 */
     .right-pet-block {
       flex: 1.1;
       max-width: 320px;
       height: 520px;             
       border: 2px dashed #ffffff;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       padding: 16px;
@@ -325,7 +341,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 6. 【5 位數字計數器模組】 */
+    /* 7. 【5 位數字計數器模組】 */
     /* ----------------------------------------------------- */
     .custom-counter-box {
       border: 1px dashed #444;
@@ -358,7 +374,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 7. 【頁尾 YouTube 音樂播放器 Bar】 */
+    /* 8. 【頁尾 YouTube 音樂播放器 Bar】 */
     /* ----------------------------------------------------- */
     .retro-audio-player-bar {
       position: fixed;
@@ -374,7 +390,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 16px;
-      gap: 12px;
+      gap: 16px;
       z-index: 999;
       font-size: 12px;
     }
@@ -383,6 +399,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-shrink: 0;
     }
 
     #songSelector {
@@ -398,8 +415,7 @@
     }
 
     .player-center-group {
-      flex: 1;
-      max-width: 450px;
+      flex: 2; /* 放大比例，讓進度條佔據更多空間 */
       display: flex;
       align-items: center;
     }
@@ -408,6 +424,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-shrink: 0;
     }
 
     input[type=range] {
@@ -427,7 +444,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 8. 【Y2K 連結懸停樣式與游標】（確保游標與軌跡特效永遠在最最最上層 z-index: 999999） */
+    /* 9. 【Y2K 連結懸停樣式與游標】 */
     /* ----------------------------------------------------- */
     a {
       color: #ffffff;
@@ -457,8 +474,11 @@
 </head>
 <body>
 
+  <!-- 第二層背景透明圖片（已調暗） -->
+  <div class="second-layer-bg"></div>
+
   <!-- 背景古早味十字星飄落容器 -->
-  <div id="star-fall-container" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:1; overflow:hidden;"></div>
+  <div id="star-fall-container" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:3; overflow:hidden;"></div>
 
   <!-- 全螢幕燈箱 (Lightbox) 檢視器 -->
   <div id="lightbox-modal">
@@ -470,14 +490,12 @@
   </div>
 
   <!-- ======================================================= -->
-  <!-- 【暗黑系桌寵：小惡魔 ✟】（完全獨立，100% 透明無方塊穿幫） -->
+  <!-- 【暗黑系桌寵：小惡魔 ✟】 -->
   <!-- ======================================================= -->
   <div id="text-pet" style="position:fixed; bottom:40px; right:40px; pointer-events:auto; z-index:99990; user-select:none; font-family:monospace; line-height:1.2; font-weight:bold; white-space:pre; background:transparent; transition: all 0.3s steps(4); padding: 4px;">
     
-    <!-- 對話泡泡 -->
     <div id="pet-bubble" style="display: none; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: #000000; color: #ffffff; border: 1.5px solid #ffffff; padding: 4px 8px; font-size: 12px; border-radius: 4px; white-space: nowrap; text-shadow: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); font-family: sans-serif;"></div>
     
-    <!-- 桌寵身體區 -->
     <span id="pet-body" style="color:#ffffff; font-size:14px; display: block; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold;"></span>
 
   </div>
@@ -530,7 +548,6 @@
     <!-- 右欄：即時狀態 + Cbox 留言板 + 5位數計數器 -->
     <div class="right-pet-block">
       
-      <!-- 1. 即時狀態看板 -->
       <div>
         <div class="status-title">✟ current status ✟</div>
         <div class="status-item">
@@ -539,13 +556,11 @@
         </div>
       </div>
 
-      <!-- 2. Cbox 免費留言板 -->
       <div style="border: 1px solid #333; background: rgba(0, 0, 0, 0.5);">
         <div style="font-size: 11px; color: #888; padding: 4px; text-align: center; border-bottom: 1px dashed #333;">✟ guestbook ✟</div>
         <iframe src="https://www3.cbox.ws/box/?boxid=3560409&boxtag=ZOM8GA" width="100%" height="250" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
       </div>
 
-      <!-- 3. 5位數計數器 -->
       <div class="custom-counter-box">
         <div style="font-size: 10px; color: #888; letter-spacing: 1px;">VISITOR COUNTER</div>
         <div class="counter-display-wrapper">
@@ -558,25 +573,22 @@
   </div>
 
   <!-- ----------------------------------------------------- -->
-  <!-- 7. 【頁尾 YouTube 音樂播放器 Bar】 -->
+  <!-- 頁尾 YouTube 音樂播放器 Bar -->
   <!-- ----------------------------------------------------- -->
   <div id="player" style="display:none;"></div>
 
   <div class="retro-audio-player-bar">
     <div class="player-left-group">
-      <!-- 上一首按鈕 -->
       <button id="prevSongBtn" onclick="prevSong()" title="上一首"
         style="font-size:12px; min-width:28px; padding:3px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
         ⏮
       </button>
 
-      <!-- 播放/暫停按鈕 -->
       <button id="musicToggle" onclick="toggleMusic()" title="播放/暫停"
         style="font-size:12px; min-width:32px; padding:3px 8px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
         ❚❚
       </button>
 
-      <!-- 下一首按鈕 -->
       <button id="nextSongBtn" onclick="nextSongManual()" title="下一首"
         style="font-size:12px; min-width:28px; padding:3px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
         ⏭
@@ -597,6 +609,7 @@
       </select>
     </div>
 
+    <!-- 加長後的進度條區塊 -->
     <div class="player-center-group">
       <input type="range" id="progressBar" value="0" min="0" max="100" step="1" style="width:100%;" />
     </div>
@@ -612,13 +625,10 @@
     </div>
   </div>
 
-  <!-- 自訂實心文字菱形 ◆ 游標本體（z-index 確保在 999999） -->
   <div id="retro-cursor-main" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999999; user-select: none; display: none; color: #ffffff !important; font-size: 24px; font-family: monospace; line-height: 1; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold; background: transparent !important; mix-blend-mode: normal !important; isolation: isolate !important; width: 24px; height: 24px; text-align: center;">◆</div>
 
   <script>
-    /* ----------------------------------------------------- */
-    /* GitHub 資料夾自動抓圖、輪播與全圖放大 (Lightbox) 邏輯 */
-    /* ----------------------------------------------------- */
+    /* GitHub 圖片抓取邏輯 */
     (function() {
       const gallery = document.getElementById('github-gallery');
       const modal = document.getElementById('lightbox-modal');
@@ -725,9 +735,7 @@
         });
     })();
 
-    /* ----------------------------------------------------- */
-    /* A. 【暗黑系桌寵小惡魔互動邏輯】 */
-    /* ----------------------------------------------------- */
+    /* 桌寵互動邏輯 */
     (function() {
       const pet = document.getElementById('text-pet');
       const petBody = document.getElementById('pet-body');
@@ -899,9 +907,7 @@
       });
     })();
 
-    /* ----------------------------------------------------- */
-    /* B. 背景飄落十字星 */
-    /* ----------------------------------------------------- */
+    /* 十字星飄落 */
     (function() {
       const container = document.getElementById('star-fall-container');
       if (!container) return;
@@ -928,9 +934,7 @@
       setInterval(createStar, spawnInterval);
     })();
 
-    /* ----------------------------------------------------- */
-    /* C. 菱形游標與軌跡 */
-    /* ----------------------------------------------------- */
+    /* 游標跟軌跡 */
     (function() {
       const cursor = document.getElementById('retro-cursor-main');
       if (cursor) {
@@ -952,9 +956,7 @@
       });
     })();
 
-    /* ----------------------------------------------------- */
-    /* D. 全網雲端計數器 API */
-    /* ----------------------------------------------------- */
+    /* 訪客計數器 */
     (function() {
       fetch('https://api.counterapi.dev/v1/claen_dark_castle/visits/up')
         .then(response => response.json())
@@ -968,9 +970,7 @@
         .catch(err => console.log('Counter API offline, fallback active.', err));
     })();
 
-    /* ----------------------------------------------------- */
-    /* E. YouTube Iframe API 播放邏輯與自動播放解鎖機制 */
-    /* ----------------------------------------------------- */
+    /* YouTube 播放器與控制邏輯 */
     let player;
     let isPlaying = true;
     let currentIndex;
