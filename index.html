@@ -382,7 +382,7 @@
     .player-left-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
     }
 
     #songSelector {
@@ -564,9 +564,22 @@
 
   <div class="retro-audio-player-bar">
     <div class="player-left-group">
-      <button id="musicToggle" onclick="toggleMusic()" 
+      <!-- 上一首按鈕 -->
+      <button id="prevSongBtn" onclick="prevSong()" title="上一首"
+        style="font-size:12px; min-width:28px; padding:3px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
+        ⏮
+      </button>
+
+      <!-- 播放/暫停按鈕 -->
+      <button id="musicToggle" onclick="toggleMusic()" title="播放/暫停"
         style="font-size:12px; min-width:32px; padding:3px 8px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
         ❚❚
+      </button>
+
+      <!-- 下一首按鈕 -->
+      <button id="nextSongBtn" onclick="nextSongManual()" title="下一首"
+        style="font-size:12px; min-width:28px; padding:3px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
+        ⏭
       </button>
 
       <select id="songSelector" onchange="changeSong()">
@@ -645,7 +658,6 @@
                   ` : ''}
                 `;
 
-                // 點擊圖片開啟燈箱全圖
                 const currentImg = document.getElementById('current-art-img');
                 if (currentImg) {
                   currentImg.addEventListener('click', () => {
@@ -688,7 +700,7 @@
                 currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
                 lbImg.src = imageUrls[currentIndex];
                 lbCounter.innerText = `${currentIndex + 1} / ${imageUrls.length}`;
-                renderGallery(); // 同步更新左欄小圖位置
+                renderGallery();
               });
 
               lbNext.addEventListener('click', (e) => {
@@ -696,7 +708,7 @@
                 currentIndex = (currentIndex + 1) % imageUrls.length;
                 lbImg.src = imageUrls[currentIndex];
                 lbCounter.innerText = `${currentIndex + 1} / ${imageUrls.length}`;
-                renderGallery(); // 同步更新左欄小圖位置
+                renderGallery();
               });
 
               renderGallery();
@@ -990,7 +1002,7 @@
           },
           onStateChange: function (event) {
             if (event.data === YT.PlayerState.ENDED) {
-              currentIndex = (currentIndex + 1) % playlist.length;
+              currentIndex = Math.floor(Math.random() * playlist.length);
               player.loadVideoById(playlist[currentIndex]);
               document.getElementById("songSelector").value = currentIndex;
             }
@@ -999,10 +1011,6 @@
       });
     }
 
-    // ==========================================
-    // 【自動播放防護解鎖機制】
-    // 突破瀏覽器限制：當偵測到滑鼠移動、點擊或按鍵時自動解鎖播放
-    // ==========================================
     let hasInteracted = false; 
 
     function tryPlayOnInteraction() {
@@ -1020,7 +1028,6 @@
     window.addEventListener('mousemove', tryPlayOnInteraction);
     window.addEventListener('click', tryPlayOnInteraction);
     window.addEventListener('keydown', tryPlayOnInteraction);
-    // ==========================================
 
     function toggleMusic() {
       if (!player || typeof player.getPlayerState !== "function") return;
@@ -1040,6 +1047,26 @@
       currentIndex = index;
       if (player && typeof player.loadVideoById === "function") {
         player.loadVideoById(playlist[index]);
+        isPlaying = true;
+        updateButtonStyle(true);
+      }
+    }
+
+    function prevSong() {
+      currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+      if (player && typeof player.loadVideoById === "function") {
+        player.loadVideoById(playlist[currentIndex]);
+        document.getElementById("songSelector").value = currentIndex;
+        isPlaying = true;
+        updateButtonStyle(true);
+      }
+    }
+
+    function nextSongManual() {
+      currentIndex = (currentIndex + 1) % playlist.length;
+      if (player && typeof player.loadVideoById === "function") {
+        player.loadVideoById(playlist[currentIndex]);
+        document.getElementById("songSelector").value = currentIndex;
         isPlaying = true;
         updateButtonStyle(true);
       }
