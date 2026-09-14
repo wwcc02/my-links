@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✟ Welcome to My Dark Castle ✟</title>
+  <style>
+    /* ----------------------------------------------------- */
+    /* 1. 【全局基礎設定】 */
+    /* ----------------------------------------------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: #000000 !important;
+      overflow: hidden;
+      user-select: none;
+      font-family: monospace;
+      color: #ffffff;
+      position: relative;
+    }
+    *, html, body, a, button, input, select, textarea {
+      cursor: none !important;
+    }
+
+    /* ----------------------------------------------------- */
+    /* 2. 【古早味十字星飄落樣式】 */
+    /* ----------------------------------------------------- */
+    @keyframes retroBlink {
+      0%, 100% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    @keyframes starFall {
+      0% { top: -30px; transform: translateX(0); }
+      100% { top: 105vh; transform: translateX(35px); }
+    }
+
+    .retro-star {
+      position: absolute;
+      color: #ffffff;
+      font-family: serif;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ----------------------------------------------------- */
+    /* 3. 【全頁頂部 Header 標題樣式】 */
+    /* ----------------------------------------------------- */
+    .castle-header {
+      width: 100%;
+      height: 75px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+      padding-top: 50px;
+    }
+
+    .castle-title-main {
+      font-size: 40px; 
+      font-weight: bold;
+      letter-spacing: 5px;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+      font-family: monospace;
+    }
+
+    .castle-title-line {
+      width: 400px;
+      border-bottom: 1.5px dashed #555;
+      margin-top: 4px;
+    }
+
+    /* ----------------------------------------------------- */
+    /* 4. 【Flexbox 三欄式排版（微霧玻璃樣式）】 */
+    /* ----------------------------------------------------- */
+    .main-castle-container {
+      width: 100%;
+      height: calc(100% - 48px - 75px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 30px;
+      gap: 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* 左欄：動態抓取 GitHub 資料夾插畫區 */
+    .left-art-block {
+      flex: 1;
+      max-width: 330px;
+      height: 520px;             
+      border: 2px solid #ffffff;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+      cursor: none !important;
+    }
+
+    .left-art-block img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* 圖片填滿框框，裁切多餘部分 */
+      display: block;
+      cursor: none !important;
+    }
+
+    /* 圖片切換按鈕微調 */
+    .art-nav-btn {
+      position: absolute;
+      bottom: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: 1px solid #fff;
+      padding: 2px 8px;
+      font-family: monospace;
+      font-size: 11px;
+      z-index: 5;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      cursor: none !important;
+    }
+    .art-nav-btn:hover {
+      opacity: 1;
+      background: #fff;
+      color: #000;
+    }
+    #prevArt { left: 10px; }
+    #nextArt { right: 10px; }
+
+    /* 全圖放大提示字樣 */
+    .zoom-hint {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: bold;
+      pointer-events: none;
+      z-index: 5;
+      text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95);
+    }
+
+    /* ----------------------------------------------------- */
+    /* 5. 【全螢幕燈箱 (Lightbox) 檢視器】（z-index 設為 9000 讓游標維持在最上層） */
+    /* ----------------------------------------------------- */
+    #lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 9000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      cursor: none !important;
+    }
+
+    #lightbox-img {
+      max-width: 85vw;
+      max-height: 80vh;
+      object-fit: contain;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 25px rgba(255,255,255,0.2);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 28px;
+      color: #fff;
+      background: transparent;
+      border: 1px solid #fff;
+      padding: 2px 12px;
+      font-family: monospace;
+      cursor: none !important;
+    }
+    .lightbox-close:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      border: 2px solid #fff;
+      font-size: 24px;
+      padding: 10px 16px;
+      font-family: monospace;
+      cursor: none !important;
+    }
+    .lightbox-nav:hover {
+      background: #fff;
+      color: #000;
+    }
+    #lb-prev { left: 30px; }
+    #lb-next { right: 30px; }
+
+    #lb-counter {
+      position: absolute;
+      bottom: 20px;
+      font-size: 14px;
+      color: #aaa;
+      letter-spacing: 2px;
+    }
+
+    /* 中欄：自介與超連結（微霧透光） */
+    .center-text-block {
+      flex: 1.2;
+      max-width: 420px;
+      height: 520px;             
+      border: 2px solid #ffffff;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 14px;
+      overflow-y: auto;
+    }
+
+    .center-text-block::-webkit-scrollbar {
+      width: 6px;
+    }
+    .center-text-block::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+      border-left: 1px dashed #333;
+    }
+    .center-text-block::-webkit-scrollbar-thumb {
+      background: #ffffff;
+    }
+
+    /* 右欄：即時狀態、Cbox 留言板與 5 位數自設計數器（微霧透光） */
+    .right-pet-block {
+      flex: 1.1;
+      max-width: 320px;
+      height: 520px;             
+      border: 2px dashed #ffffff;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.05);
+      overflow-y: auto;
+    }
+
+    .right-pet-block::-webkit-scrollbar {
+      width: 4px;
+    }
+    .right-pet-block::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .right-pet-block::-webkit-scrollbar-thumb {
+      background: #ffffff;
+    }
+
+    .status-title {
+      font-size: 13px;
+      font-weight: bold;
+      border-bottom: 1px dashed #ffffff;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .status-item {
+      font-size: 11px;
+      line-height: 1.5;
+      margin-bottom: 6px;
+      color: #ccc;
+    }
+
+    .status-item span {
+      color: #fff;
+      font-weight: bold;
+      display: block;
+    }
+
+    .music-link {
+      color: #ccc !important;
+      font-weight: normal !important;
+      font-size: 11px !important;
+      text-decoration: underline;
+    }
+    .music-link:hover {
+      color: #000000 !important;       
+      background: #ffffff !important;  
+      text-shadow: 0 0 8px #ffffff; 
+      border: 1px dashed #000000 !important; 
+      padding: 0 4px;
+      text-decoration: none;
+    }
+
+    /* ----------------------------------------------------- */
+    /* 6. 【5 位數字計數器模組】 */
+    /* ----------------------------------------------------- */
+    .custom-counter-box {
+      border: 1px dashed #444;
+      background: rgba(5, 5, 5, 0.6);
+      padding: 12px 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .counter-display-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .counter-digit-text {
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+      font-family: monospace;
+      border: 1px solid #333;
+      padding: 2px 8px;
+      background: #000;
+    }
+
+    /* ----------------------------------------------------- */
+    /* 7. 【頁尾 YouTube 音樂播放器 Bar】 */
+    /* ----------------------------------------------------- */
+    .retro-audio-player-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 48px;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border-top: 1px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      gap: 12px;
+      z-index: 999;
+      font-size: 12px;
+    }
+
+    .player-left-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #songSelector {
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid #ffffff;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 3px 6px;
+      max-width: 140px;
+      outline: none;
+      cursor: none !important;
+    }
+
+    .player-center-group {
+      flex: 1;
+      max-width: 450px;
+      display: flex;
+      align-items: center;
+    }
+
+    .player-right-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #333;
+      height: 5px;
+      border: 1px solid #666;
+      outline: none;
+      cursor: none !important;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 8px;
+      height: 12px;
+      background: #ffffff;
+      cursor: none !important;
+    }
+
+    /* ----------------------------------------------------- */
+    /* 8. 【Y2K 連結懸停樣式與游標】（確保游標與軌跡特效永遠在最最最上層 z-index: 999999） */
+    /* ----------------------------------------------------- */
+    a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.2s steps(4);
+      display: inline-block;
+      width: max-content;
+      font-size: 13px;
+    }
+    a:hover {
+      color: #000000 !important;       
+      background: #ffffff !important;  
+      text-shadow: 0 0 8px #ffffff, 0 0 15px #ffffff; 
+      border: 1px dashed #000000 !important; 
+      padding: 2px 6px;
+    }
+
+    @keyframes retroCursorBlink { 0%, 100% { transform: scale(0.7); opacity: 0.5; } 50% { transform: scale(1.3); opacity: 1; } }
+    @keyframes snowflakeFall { 0% { top: var(--start-y); opacity: 0.9; } 100% { top: calc(var(--start-y) + 55px); opacity: 0; } }
+    .cursor-snow-star {
+      position: fixed; pointer-events: none; user-select: none; z-index: 999999; color: #ffffff !important; font-family: sans-serif; line-height: 1; background: transparent !important; font-weight: bold;
+      animation: retroCursorBlink 0.3s steps(2) infinite, snowflakeFall 0.6s linear forwards;
+      mix-blend-mode: difference !important; filter: grayscale(1) !important; -webkit-filter: grayscale(1) !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 背景古早味十字星飄落容器 -->
+  <div id="star-fall-container" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:1; overflow:hidden;"></div>
+
+  <!-- 全螢幕燈箱 (Lightbox) 檢視器 -->
+  <div id="lightbox-modal">
+    <button class="lightbox-close" id="lb-close">✕</button>
+    <button class="lightbox-nav" id="lb-prev">◀</button>
+    <img id="lightbox-img" src="" alt="Full View">
+    <button class="lightbox-nav" id="lb-next">▶</button>
+    <div id="lb-counter">1 / 1</div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- 【暗黑系桌寵：小惡魔 ✟】（完全獨立，100% 透明無方塊穿幫） -->
+  <!-- ======================================================= -->
+  <div id="text-pet" style="position:fixed; bottom:40px; right:40px; pointer-events:auto; z-index:99990; user-select:none; font-family:monospace; line-height:1.2; font-weight:bold; white-space:pre; background:transparent; transition: all 0.3s steps(4); padding: 4px;">
+    
+    <!-- 對話泡泡 -->
+    <div id="pet-bubble" style="display: none; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: #000000; color: #ffffff; border: 1.5px solid #ffffff; padding: 4px 8px; font-size: 12px; border-radius: 4px; white-space: nowrap; text-shadow: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); font-family: sans-serif;"></div>
+    
+    <!-- 桌寵身體區 -->
+    <span id="pet-body" style="color:#ffffff; font-size:14px; display: block; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold;"></span>
+
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- 【全頁頂部 Header 獨立大標題】 -->
+  <!-- ======================================================= -->
+  <header class="castle-header">
+    <div class="castle-title-main">✟ 𝖈𝖑𝖆𝖊𝖓 ✟</div>
+    <div class="castle-title-line"></div>
+  </header>
+
+  <!-- 三欄式主舞台 -->
+  <div class="main-castle-container">
+    
+    <!-- 左欄：動態 GitHub 資料夾圖片展示區 -->
+    <div class="left-art-block" id="github-gallery">
+      <div style="font-size: 13px; color: #aaa; text-align: center; letter-spacing: 1px;">✟ 正在讀取<br>GitHub 資料夾圖庫... ✟</div>
+    </div>
+
+    <!-- 中欄：自介與社群連結 -->
+    <div class="center-text-block">
+      <div style="font-size: 12px; line-height: 1.6; color: #ccc;">
+        歡迎來到我的黑暗城堡。<br>
+        這裡記錄了繪圖、音樂與黑白點陣的世界。
+      </div>
+
+      <div style="font-size: 14px; font-weight: bold; margin-top: 6px; color: #fff;">▶ 連結傳送陣</div>
+      
+      <a href="https://xxclaenxx.blogspot.com/" target="_blank">☆ blogger ☆</a>
+      <a href="https://z710601z.pixnet.net/blog" target="_blank">★ pixnet ★</a>
+      <a href="https://www.youtube.com/@Xx_claen_xX" target="_blank">☆ youtube ☆</a>
+      <a href="https://xxclaenxx.tumblr.com/" target="_blank">★ tumblr ☆</a>
+      <a href="https://home.gamer.com.tw/profile/index_feed.php?owner=claen1115" target="_blank">☆ bahamut ☆</a>
+      <a href="https://www.facebook.com/XxclaenxX/" target="_blank">★ facebook personal ☆</a>
+      <a href="https://www.facebook.com/claenyinling/" target="_blank">★ facebook fanpage ☆</a>
+      <a href="https://www.instagram.com/xxclaenxx/" target="_blank">☆ instagram ☆</a>
+      <a href="https://www.threads.com/@xxclaenxx" target="_blank">☆ threads ☆</a>
+      <a href="https://www.plurk.com/Xx_claen_xX" target="_blank">★ plurk ☆</a>
+      <a href="https://bsky.app/profile/xxclaenxx.bsky.social" target="_blank">☆ bluesky ☆</a>
+      <a href="https://medibang.com/u/claen/" target="_blank">★ artstreet ☆</a>
+      <a href="https://www.pixiv.net/users/19211895" target="_blank">☆ pixiv ☆</a>
+      <a href="https://www.flyingmilktea.com/profile/?claen/" target="_blank">★ flying milk tea ★</a>
+      
+      <div style="font-size: 11px; color: #666; margin-top: 10px; border-top: 1px dashed #444; padding-top: 6px;">
+        © 2026 𝖈﻿𝖑𝖆𝖊𝖓. Built with Pure Code & Pride.
+      </div>
+    </div>
+
+    <!-- 右欄：即時狀態 + Cbox 留言板 + 5位數計數器 -->
+    <div class="right-pet-block">
+      
+      <!-- 1. 即時狀態看板 -->
+      <div>
+        <div class="status-title">✟ current status ✟</div>
+        <div class="status-item">
+          <span>◇ listening</span>
+          └─ <a href="https://www.youtube.com/watch?v=sB_1nw1GMjg" target="_blank" class="music-link">MIYAVI - Papa Mama</a>
+        </div>
+      </div>
+
+      <!-- 2. Cbox 免費留言板 -->
+      <div style="border: 1px solid #333; background: rgba(0, 0, 0, 0.5);">
+        <div style="font-size: 11px; color: #888; padding: 4px; text-align: center; border-bottom: 1px dashed #333;">✟ guestbook ✟</div>
+        <iframe src="https://www3.cbox.ws/box/?boxid=3560409&boxtag=ZOM8GA" width="100%" height="250" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
+      </div>
+
+      <!-- 3. 5位數計數器 -->
+      <div class="custom-counter-box">
+        <div style="font-size: 10px; color: #888; letter-spacing: 1px;">VISITOR COUNTER</div>
+        <div class="counter-display-wrapper">
+          <div id="visitor-num" class="counter-digit-text">00001</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ----------------------------------------------------- -->
+  <!-- 7. 【頁尾 YouTube 音樂播放器 Bar】 -->
+  <!-- ----------------------------------------------------- -->
+  <div id="player" style="display:none;"></div>
+
+  <div class="retro-audio-player-bar">
+    <div class="player-left-group">
+      <button id="musicToggle" onclick="toggleMusic()" 
+        style="font-size:12px; min-width:32px; padding:3px 8px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
+        ❚❚
+      </button>
+
+      <select id="songSelector" onchange="changeSong()">
+        <option value="0">Gazette - Silly God Disco</option>
+        <option value="1">Miyavi - Tome To Jurii</option>
+        <option value="2">シド - アリバイ</option>
+        <option value="3">ギルガメッシュ - crying rain</option>
+        <option value="4">KAMIJO - 闇夜のライオン</option>
+        <option value="5">LOG - Adore you～キミヲ想フ声～</option>
+        <option value="6">Versailles - ASCENDEAD MASTER</option>
+        <option value="7">the GazettE - SHIVER</option>
+        <option value="8">KAMIJO - mademoiselle</option>
+        <option value="9">ViViD - 「夢」〜ムゲンノカナタ〜</option>
+        <option value="10">MIYAVI - Papa Mama</option>
+      </select>
+    </div>
+
+    <div class="player-center-group">
+      <input type="range" id="progressBar" value="0" min="0" max="100" step="1" style="width:100%;" />
+    </div>
+
+    <div class="player-right-group">
+      <span style="font-size:11px; color:#888;">VOL</span>
+      <input type="range" id="volumeBar" value="50" min="0" max="100" step="1" style="width:60px;" />
+      <span id="volumeValue" style="font-size:11px; color:#ffffff; width:30px;">50%</span>
+      <button id="muteToggle" onclick="toggleMute()" 
+        style="font-size:11px; padding:2px 8px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; cursor:none !important;">
+        靜音
+      </button>
+    </div>
+  </div>
+
+  <!-- 自訂實心文字菱形 ◆ 游標本體（z-index 確保在 999999） -->
+  <div id="retro-cursor-main" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999999; user-select: none; display: none; color: #ffffff !important; font-size: 24px; font-family: monospace; line-height: 1; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold; background: transparent !important; mix-blend-mode: normal !important; isolation: isolate !important; width: 24px; height: 24px; text-align: center;">◆</div>
+
+  <script>
+    /* ----------------------------------------------------- */
+    /* GitHub 資料夾自動抓圖、輪播與全圖放大 (Lightbox) 邏輯 */
+    /* ----------------------------------------------------- */
+    (function() {
+      const gallery = document.getElementById('github-gallery');
+      const modal = document.getElementById('lightbox-modal');
+      const lbImg = document.getElementById('lightbox-img');
+      const lbClose = document.getElementById('lb-close');
+      const lbPrev = document.getElementById('lb-prev');
+      const lbNext = document.getElementById('lb-next');
+      const lbCounter = document.getElementById('lb-counter');
+
+      if (!gallery) return;
+
+      const owner = "wwcc02";
+      const repo = "my-links";
+      const path = "自介網頁用";
+      const apiURL = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`;
+
+      fetch(apiURL)
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            const imageFiles = data.filter(file => {
+              const name = file.name.toLowerCase();
+              return name.endsWith('.png') || name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.gif') || name.endsWith('.webp');
+            });
+
+            if (imageFiles.length > 0) {
+              const imageUrls = imageFiles.map(file => file.download_url);
+              let currentIndex = 0;
+
+              function renderGallery() {
+                gallery.innerHTML = `
+                  <div class="zoom-hint">點擊看全圖</div>
+                  <img src="${imageUrls[currentIndex]}" alt="Castle Art" id="current-art-img">
+                  ${imageUrls.length > 1 ? `
+                    <button class="art-nav-btn" id="prevArt" style="left:8px;">◀</button>
+                    <button class="art-nav-btn" id="nextArt" style="right:8px;">▶</button>
+                  ` : ''}
+                `;
+
+                // 點擊圖片開啟燈箱全圖
+                const currentImg = document.getElementById('current-art-img');
+                if (currentImg) {
+                  currentImg.addEventListener('click', () => {
+                    openLightbox(currentIndex);
+                  });
+                }
+
+                if (imageUrls.length > 1) {
+                  document.getElementById('prevArt').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
+                    renderGallery();
+                  });
+                  document.getElementById('nextArt').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentIndex = (currentIndex + 1) % imageUrls.length;
+                    renderGallery();
+                  });
+                }
+              }
+
+              function openLightbox(index) {
+                currentIndex = index;
+                lbImg.src = imageUrls[currentIndex];
+                lbCounter.innerText = `${currentIndex + 1} / ${imageUrls.length}`;
+                modal.style.display = 'flex';
+              }
+
+              function closeLightbox() {
+                modal.style.display = 'none';
+              }
+
+              lbClose.addEventListener('click', closeLightbox);
+              modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeLightbox();
+              });
+
+              lbPrev.addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
+                lbImg.src = imageUrls[currentIndex];
+                lbCounter.innerText = `${currentIndex + 1} / ${imageUrls.length}`;
+                renderGallery(); // 同步更新左欄小圖位置
+              });
+
+              lbNext.addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentIndex = (currentIndex + 1) % imageUrls.length;
+                lbImg.src = imageUrls[currentIndex];
+                lbCounter.innerText = `${currentIndex + 1} / ${imageUrls.length}`;
+                renderGallery(); // 同步更新左欄小圖位置
+              });
+
+              renderGallery();
+            } else {
+              gallery.innerHTML = `<div style="font-size: 12px; color: #aaa; text-align: center; padding: 10px;">✟ 資料夾內目前沒有圖片 ✟</div>`;
+            }
+          } else {
+            gallery.innerHTML = `<div style="font-size: 12px; color: #aaa; text-align: center; padding: 10px;">✟ 無法讀取 GitHub 資料夾 ✟</div>`;
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          gallery.innerHTML = `<div style="font-size: 12px; color: #aaa; text-align: center; padding: 10px;">✟ 讀取發生錯誤 ✟</div>`;
+        });
+    })();
+
+    /* ----------------------------------------------------- */
+    /* A. 【暗黑系桌寵小惡魔互動邏輯】 */
+    /* ----------------------------------------------------- */
+    (function() {
+      const pet = document.getElementById('text-pet');
+      const petBody = document.getElementById('pet-body');
+      const bubble = document.getElementById('pet-bubble');
+      if (!pet || !petBody || !bubble) return;
+
+      const idle1 = " t    t \n( - . - )\n ▼    ▼ ";
+      const idle2 = " t    t \n( 0 . 0 )\n ▼    ▼ ";
+      const happy1 = " t    t \n！(> . <)！\n ▼    ▼ ";
+      const happy2 = "  t    t \n/( 0 . 0 )\\\n  ▼    ▼ ";
+      const scared = " t    t \nΣ( O . O )\n  ▼    ▼ ";
+
+      const mark1 = String.fromCharCode(65281); 
+      const mark2 = String.fromCharCode(65311); 
+
+      const scaredQuotes = [
+        "你幹嘛" + mark2 + mark1,
+        "怎樣啦" + mark1,
+        "吼唷走開啦" + mark1 + mark1,
+        "好可怕" + mark1 + mark1 + mark1,
+        "救命喔" + mark1 + mark1 + mark1,
+        "啊啊啊啊啊" + mark1 + mark1 + mark1,
+        "不要啊" + mark1 + mark1 + mark1,
+        "我這麼可愛你怎麼捨得傷害我（嗚嗚嗚"
+      ];
+
+      const idleWanderQuotes = [
+        "啦啦啦～",
+        "嘟嚕嘟嘟～",
+        "啊哈哈～～",
+        "呦！！！",
+        "嗚呼！",
+        "喔呀喔呀～",
+        "牙類牙類～"
+      ];
+
+      const curiousQuotes = [
+        "這是在幹嘛？",
+        "不理我了嗎？",
+        "你人好像還不錯……",
+        "（一臉好奇）",
+        "我才沒有好奇你在幹嘛！",
+        "" 
+      ];
+
+      petBody.innerHTML = idle2;
+
+      setInterval(() => {
+        if (pet.getAttribute('data-status') !== 'scared' && pet.getAttribute('data-status') !== 'wandering' && pet.getAttribute('data-status') !== 'following') {
+          const rand = Math.random();
+          if (rand < 0.6) {
+            petBody.innerHTML = (petBody.innerHTML === idle1) ? idle2 : idle1;
+          } else {
+            petBody.innerHTML = (petBody.innerHTML === happy1) ? happy2 : happy1;
+          }
+        }
+      }, 800);
+
+      let lastMouseX = window.innerWidth / 2;
+      let lastMouseY = window.innerHeight / 2;
+      window.addEventListener('mousemove', function(e) {
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+      });
+
+      function triggerIdleWander() {
+        if (pet.getAttribute('data-status') === 'scared') return;
+
+        const isFollowingCursor = Math.random() < 0.5;
+
+        if (isFollowingCursor) {
+          pet.setAttribute('data-status', 'following');
+
+          const randomQuote = curiousQuotes[Math.floor(Math.random() * curiousQuotes.length)];
+          if (randomQuote && randomQuote.trim() !== "") {
+            bubble.innerHTML = randomQuote;
+            bubble.style.display = 'block';
+          } else {
+            bubble.style.display = 'none';
+          }
+
+          petBody.innerHTML = idle1; 
+
+          const offsetX = (Math.random() - 0.5) * 180;
+          const offsetY = (Math.random() - 0.5) * 180;
+          let targetX = lastMouseX + offsetX;
+          let targetY = lastMouseY + offsetY;
+
+          targetX = Math.max(20, Math.min(window.innerWidth - 150, targetX));
+          targetY = Math.max(20, Math.min(window.innerHeight - 150, targetY));
+
+          pet.style.right = 'auto';
+          pet.style.bottom = 'auto';
+          pet.style.left = targetX + 'px';
+          pet.style.top = targetY + 'px';
+
+          setTimeout(() => {
+            bubble.style.display = 'none';
+            if (pet.getAttribute('data-status') === 'following') {
+              pet.removeAttribute('data-status');
+              petBody.innerHTML = idle2;
+            }
+          }, 2000);
+
+        } else {
+          pet.setAttribute('data-status', 'wandering');
+          
+          const randomWanderQuote = idleWanderQuotes[Math.floor(Math.random() * idleWanderQuotes.length)];
+          bubble.innerHTML = randomWanderQuote;
+          bubble.style.display = 'block';
+
+          petBody.innerHTML = happy2;
+
+          const newX = Math.floor(Math.random() * (window.innerWidth - 150)) + 20;
+          const newY = Math.floor(Math.random() * (window.innerHeight - 150)) + 20;
+
+          pet.style.right = 'auto';
+          pet.style.bottom = 'auto';
+          pet.style.left = newX + 'px';
+          pet.style.top = newY + 'px';
+
+          setTimeout(() => {
+            bubble.style.display = 'none';
+            if (pet.getAttribute('data-status') === 'wandering') {
+              pet.removeAttribute('data-status');
+              petBody.innerHTML = idle2;
+            }
+          }, 1500);
+        }
+
+        const nextTime = Math.floor(Math.random() * 7000) + 9000;
+        setTimeout(triggerIdleWander, nextTime);
+      }
+
+      setTimeout(triggerIdleWander, 10000);
+
+      window.addEventListener('mousemove', function(e) {
+        const petRect = pet.getBoundingClientRect();
+        const petCenterX = petRect.left + petRect.width / 2;
+        const petCenterY = petRect.top + petRect.height / 2;
+        const distance = Math.sqrt(Math.pow(e.clientX - petCenterX, 2) + Math.pow(e.clientY - petCenterY, 2));
+
+        if (distance < 100) {
+          if (pet.getAttribute('data-status') === 'scared') return;
+
+          pet.setAttribute('data-status', 'scared');
+          petBody.innerHTML = scared;
+
+          if (Math.random() < 0.4) {
+            const randomQuote = scaredQuotes[Math.floor(Math.random() * scaredQuotes.length)];
+            bubble.innerHTML = randomQuote;
+            bubble.style.display = 'block'; 
+          }
+
+          const newX = Math.floor(Math.random() * (window.innerWidth - 150)) + 20;
+          const newY = Math.floor(Math.random() * (window.innerHeight - 150)) + 20;
+
+          pet.style.right = 'auto';
+          pet.style.bottom = 'auto';
+          pet.style.left = newX + 'px';
+          pet.style.top = newY + 'px';
+
+          setTimeout(() => {
+            bubble.style.display = 'none'; 
+            pet.removeAttribute('data-status');
+            petBody.innerHTML = idle2;
+          }, 1200);
+        }
+      });
+    })();
+
+    /* ----------------------------------------------------- */
+    /* B. 背景飄落十字星 */
+    /* ----------------------------------------------------- */
+    (function() {
+      const container = document.getElementById('star-fall-container');
+      if (!container) return;
+      const spawnInterval = 350; 
+
+      function createStar() {
+        const star = document.createElement('div');
+        star.className = 'retro-star';
+        star.innerHTML = '&#10022;';
+        star.style.left = Math.random() * 100 + 'vw';
+        const baseSize = Math.floor(Math.random() * 21) + 8; 
+        star.style.fontSize = baseSize + 'px';
+        const fallDuration = Math.random() * 10 + 15;
+        const blinkDuration = (Math.random() * 0.4 + 0.6).toFixed(2);
+        
+        star.style.animationName = 'retroBlink, starFall';
+        star.style.animationDuration = `${blinkDuration}s, ${fallDuration}s`;
+        star.style.animationTimingFunction = 'steps(2), linear';
+        star.style.animationIterationCount = 'infinite, linear';
+
+        container.appendChild(star);
+        setTimeout(() => star.remove(), fallDuration * 1000);
+      }
+      setInterval(createStar, spawnInterval);
+    })();
+
+    /* ----------------------------------------------------- */
+    /* C. 菱形游標與軌跡 */
+    /* ----------------------------------------------------- */
+    (function() {
+      const cursor = document.getElementById('retro-cursor-main');
+      if (cursor) {
+        cursor.style.display = 'block';
+        window.addEventListener('mousemove', e => {
+          cursor.style.left = (e.clientX - 12) + 'px'; cursor.style.top = (e.clientY - 12) + 'px';
+        });
+      }
+      let lastX = 0, lastY = 0;
+      window.addEventListener('mousemove', e => {
+        if (Math.sqrt(Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2)) > 10) {
+          const star = document.createElement('div'); star.className = 'cursor-snow-star'; star.innerHTML = '◇';
+          const size = Math.floor(Math.random() * 7) + 10; star.style.fontSize = size + 'px';
+          const oX = e.clientX - (size / 2) + 3, oY = e.clientY - (size / 2) - 2;
+          star.style.left = oX + 'px'; star.style.top = oY + 'px'; star.style.setProperty('--start-y', oY + 'px');
+          document.body.appendChild(star); setTimeout(() => star.remove(), 600);
+          lastX = e.clientX; lastY = e.clientY;
+        }
+      });
+    })();
+
+    /* ----------------------------------------------------- */
+    /* D. 全網雲端計數器 API */
+    /* ----------------------------------------------------- */
+    (function() {
+      fetch('https://api.counterapi.dev/v1/claen_dark_castle/visits/up')
+        .then(response => response.json())
+        .then(data => {
+          if (data && typeof data.count !== 'undefined') {
+            const formattedNum = String(data.count).padStart(5, '0');
+            const numDisplay = document.getElementById('visitor-num');
+            if (numDisplay) numDisplay.innerText = formattedNum;
+          }
+        })
+        .catch(err => console.log('Counter API offline, fallback active.', err));
+    })();
+
+    /* ----------------------------------------------------- */
+    /* E. YouTube Iframe API 播放邏輯 */
+    /* ----------------------------------------------------- */
+    let player;
+    let isPlaying = true;
+    let currentIndex;
+    let lastVolume = 50;
+    let isMuted = false;
+
+    const playlist = [
+      "5kHXg0PTMzk", "tl87LjR3910", "gpxyLpwRrsk", "OBKWCn9je-E", "NXGi8A3iG60",
+      "HP2RWTn2T8k", "ilzoDGcKF9M", "gdHO7yobgUk", "UgYJ66i_rCo", "fT4-R_8DmT0", "sB_1nw1GMjg"
+    ];
+
+    currentIndex = Math.floor(Math.random() * playlist.length);
+
+    let tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '0', width: '0', videoId: playlist[currentIndex],
+        playerVars: { autoplay: 1, controls: 0, modestbranding: 1, rel: 0 },
+        events: {
+          onReady: function () {
+            player.playVideo();
+            player.setVolume(50);
+            document.getElementById("volumeValue").textContent = "50%";
+            updateButtonStyle(true);
+            document.getElementById("songSelector").value = currentIndex;
+          },
+          onStateChange: function (event) {
+            if (event.data === YT.PlayerState.ENDED) {
+              currentIndex = (currentIndex + 1) % playlist.length;
+              player.loadVideoById(playlist[currentIndex]);
+              document.getElementById("songSelector").value = currentIndex;
+            }
+          }
+        }
+      });
+    }
+
+    function toggleMusic() {
+      if (!player || typeof player.getPlayerState !== "function") return;
+      let state = player.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) {
+        player.pauseVideo();
+        isPlaying = false;
+      } else {
+        player.playVideo();
+        isPlaying = true;
+      }
+      updateButtonStyle(isPlaying);
+    }
+
+    function changeSong() {
+      const index = parseInt(document.getElementById("songSelector").value);
+      currentIndex = index;
+      if (player && typeof player.loadVideoById === "function") {
+        player.loadVideoById(playlist[index]);
+        isPlaying = true;
+        updateButtonStyle(true);
+      }
+    }
+
+    function updateButtonStyle(playing) {
+      const button = document.getElementById("musicToggle");
+      if (playing) {
+        button.innerText = "❚❚";
+        button.style.background = "#000000";
+        button.style.color = "#ffffff";
+        button.style.border = "2px solid #ffffff";
+      } else {
+        button.innerText = "▶";
+        button.style.background = "#ffffff";
+        button.style.color = "#000000";
+        button.style.border = "2px solid #000000";
+      }
+    }
+
+    setInterval(() => {
+      if (player && typeof player.getDuration === "function" && typeof player.getCurrentTime === "function") {
+        const duration = player.getDuration();
+        const current = player.getCurrentTime();
+        if (duration && duration > 0) {
+          const progress = (current / duration) * 100;
+          document.getElementById("progressBar").value = progress || 0;
+        }
+      }
+    }, 1000);
+
+    document.getElementById("progressBar").addEventListener("input", function () {
+      if (player && typeof player.seekTo === "function" && typeof player.getDuration === "function") {
+        const duration = player.getDuration();
+        if (duration && duration > 0) {
+          const seekTime = (this.value / 100) * duration;
+          player.seekTo(seekTime, true);
+        }
+      }
+    });
+
+    document.getElementById("volumeBar").addEventListener("input", function () {
+      if (player && typeof player.setVolume === "function") {
+        player.setVolume(this.value);
+        document.getElementById("volumeValue").textContent = this.value + "%";
+        lastVolume = this.value;
+        if (this.value > 0) {
+          isMuted = false;
+          updateMuteButtonStyle(false);
+        }
+      }
+    });
+
+    function toggleMute() {
+      if (player && typeof player.setVolume === "function") {
+        if (!isMuted) {
+          lastVolume = player.getVolume();
+          player.setVolume(0);
+          document.getElementById("volumeBar").value = 0;
+          document.getElementById("volumeValue").textContent = "0%";
+          isMuted = true;
+          updateMuteButtonStyle(true);
+        } else {
+          player.setVolume(lastVolume || 50);
+          document.getElementById("volumeBar").value = lastVolume || 50;
+          document.getElementById("volumeValue").textContent = (lastVolume || 50) + "%";
+          isMuted = false;
+          updateMuteButtonStyle(false);
+        }
+      }
+    }
+
+    function updateMuteButtonStyle(muted) {
+      const muteButton = document.getElementById("muteToggle");
+      if (muted) {
+        muteButton.style.background = "#ffffff";
+        muteButton.style.color = "#000000";
+        muteButton.style.border = "2px solid #000000";
+      } else {
+        muteButton.style.background = "#000000";
+        muteButton.style.color = "#ffffff";
+        muteButton.style.border = "2px solid #ffffff";
+      }
+    }
+  </script>
+</body>
+</html>
