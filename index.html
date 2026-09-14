@@ -21,47 +21,12 @@
             color: #ffffff;
             position: relative;
         }
+        /* 強制自訂游標覆蓋所有元素 */
         *, html, body, a, button, input, select, textarea {
             cursor: none !important;
         }
 
-        /* 2. 【強制互動解鎖層 (用來突破瀏覽器自動播放限制)】 */
-        #welcome-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 999999;
-            cursor: pointer !important;
-            transition: opacity 0.5s ease;
-        }
-        #welcome-overlay h1 {
-            color: #ff3366;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px #ff0033;
-            animation: retroBlink 1s infinite alternate;
-        }
-        #welcome-overlay p {
-            color: #cccccc;
-            font-size: 1rem;
-            border: 1px dashed #ff3366;
-            padding: 10px 20px;
-            border-radius: 8px;
-        }
-
-        @keyframes retroBlink {
-            from { opacity: 1; }
-            to { opacity: 0.3; }
-        }
-
-        /* 3. 【其他主畫面排版與游標樣式】 */
+        /* 2. 【版面配置】 */
         .main-content {
             display: flex;
             flex-direction: column;
@@ -69,18 +34,31 @@
             align-items: center;
             height: 100vh;
             text-align: center;
+            padding: 20px;
         }
         h1.title {
             font-size: 2.5rem;
             margin-bottom: 10px;
             color: #ff3366;
+            text-shadow: 0 0 10px #ff0033;
         }
         p.subtitle {
             font-size: 1.2rem;
             color: #888888;
+            margin-bottom: 30px;
         }
 
-        /* 菱形游標 */
+        /* 3. 【YouTube 音樂播放器面板容器】 */
+        .music-panel {
+            background: rgba(20, 20, 20, 0.9);
+            border: 2px solid #ffffff;
+            padding: 15px;
+            border-radius: 4px;
+            width: 300px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* 4. 【菱形自訂游標】 */
         #custom-cursor {
             position: fixed;
             width: 16px;
@@ -96,28 +74,64 @@
 </head>
 <body>
 
-    <!-- 點擊任意處解鎖音樂的遮罩層 -->
-    <div id="welcome-overlay">
-        <h1>† 歡迎來到黑暗城堡 †</h1>
-        <p>[ 點擊任意處以解鎖音樂並進入 ]</p>
-    </div>
-
     <!-- 自訂菱形游標 -->
     <div id="custom-cursor"></div>
-
-    <!-- 背景音樂 (請確保你的音檔路徑正確，或直接替換 src 網址/檔名) -->
-    <audio id="bgm" loop>
-        <source src="music.mp3" type="audio/mpeg">
-        您的瀏覽器不支援音樂播放標籤
-    </audio>
 
     <div class="main-content">
         <h1 class="title">My Dark Castle</h1>
         <p class="subtitle">just my links, yah</p>
+
+        <!-- YouTube 音樂播放器控制面板 -->
+        <div class="music-panel">
+            <!-- 隱藏式 YouTube 音樂播放器容器 -->
+            <div id="player" style="display:none;"></div>
+
+            <!-- 儀式感控制按鈕 -->
+            <div style="margin-top:5px;">
+              <button id="musicToggle" onclick="toggleMusic()" 
+                style="width:100%; font-size:16px; padding:6px 0; text-align:center; border:2px solid #000000; background:#ffffff; color:#000000; cursor:pointer;">
+                ◇°•音×樂•°◆
+              </button>
+            </div>
+
+            <!-- 播放進度條 -->
+            <div style="margin:6px 0;">
+              <input type="range" id="progressBar" value="0" min="0" max="100" step="1" 
+                style="width:100%; height:6px; background:#ccc; accent-color:#000;" />
+            </div>
+
+            <!-- 音量調整拉條 + 靜音按鈕 -->
+            <div style="margin:6px 0; display:flex; align-items:center; gap:8px;">
+              <input type="range" id="volumeBar" value="50" min="0" max="100" step="1"
+                style="flex:1; height:6px; background:#ccc; accent-color:#000;" />
+              <span id="volumeValue" style="font-size:14px; color:#ffffff;">50%</span>
+              <button id="muteToggle" onclick="toggleMute()" 
+                style="font-size:14px; padding:4px 10px; border:2px solid #ffffff; background:#000000; color:#ffffff; cursor:pointer;">
+                靜音
+              </button>
+            </div>
+
+            <!-- 下拉式選單：選擇歌曲 -->
+            <div style="margin-top:6px; text-align:center;">
+              <select id="songSelector" onchange="changeSong()" style="width:100%; font-size:14px; padding:4px;">
+                <option value="0">Gazette - Silly God Disco</option>
+                <option value="1">Miyavi - Tome To Jurii</option>
+                <option value="2">シド - アリバイ</option>
+                <option value="3">ギルガメッシュ - crying rain</option>
+                <option value="4">KAMIJO - 闇夜のライオン</option>
+                <option value="5">LOG - Adore you～キミヲ想フ声～</option>
+                <option value="6">Versailles - ASCENDEAD MASTER</option>
+                <option value="7">the GazettE - SHIVER</option>
+                <option value="8">KAMIJO - mademoiselle</option>
+                <option value="9">ViViD - 「夢」〜ムゲンノカナタ〜</option>
+                <option value="10">MIYAVI - Papa Mama</option>
+              </select>
+            </div>
+        </div>
     </div>
 
     <script>
-        // 游標跟隨邏輯
+        // 1. 【自訂游標追蹤邏輯】
         const cursor = document.getElementById('custom-cursor');
         window.addEventListener('mousemove', (e) => {
             cursor.style.display = 'block';
@@ -125,23 +139,150 @@
             cursor.style.top = (e.clientY - 8) + 'px';
         });
 
-        // 點擊畫面任意處解鎖並播放音樂
-        const overlay = document.getElementById('welcome-overlay');
-        const bgm = document.getElementById('bgm');
+        // 2. 【YouTube 播放器核心邏輯】
+        let player;
+        let isPlaying = true;
+        let currentIndex;
+        let lastVolume = 50;
+        let isMuted = false;
 
-        overlay.addEventListener('click', () => {
-            bgm.play().then(() => {
-                console.log("音樂播放成功！");
-            }).catch(err => {
-                console.log("播放失敗：", err);
+        const playlist = [
+            "5kHXg0PTMzk","tl87LjR3910","gpxyLpwRrsk","OBKWCn9je-E","NXGi8A3iG60",
+            "HP2RWTn2T8k","ilzoDGcKF9M","gdHO7yobgUk","UgYJ66i_rCo","fT4-R_8DmT0","sB_1nw1GMjg"
+        ];
+
+        currentIndex = Math.floor(Math.random() * playlist.length);
+
+        let tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        let firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: playlist[currentIndex],
+                playerVars: { autoplay: 1, controls: 0, modestbranding: 1, rel: 0 },
+                events: {
+                    onReady: function () {
+                        player.playVideo();
+                        player.setVolume(50);
+                        document.getElementById("volumeValue").textContent = "50%";
+                        updateButtonStyle(true);
+                        document.getElementById("songSelector").value = currentIndex;
+                    },
+                    onStateChange: function (event) {
+                        if (event.data === YT.PlayerState.ENDED) {
+                            currentIndex = (currentIndex + 1) % playlist.length;
+                            player.loadVideoById(playlist[currentIndex]);
+                            document.getElementById("songSelector").value = currentIndex;
+                        }
+                    }
+                }
             });
+        }
 
-            // 淡出並移除遮罩層
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.remove();
-            }, 500);
+        function toggleMusic() {
+            if (!player || typeof player.getPlayerState !== "function") return;
+            let state = player.getPlayerState();
+            if (state === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+                isPlaying = false;
+            } else {
+                player.playVideo();
+                isPlaying = true;
+            }
+            updateButtonStyle(isPlaying);
+        }
+
+        function changeSong() {
+            const index = parseInt(document.getElementById("songSelector").value);
+            currentIndex = index;
+            if (player && typeof player.loadVideoById === "function") {
+                player.loadVideoById(playlist[index]);
+                isPlaying = true;
+                updateButtonStyle(true);
+            }
+        }
+
+        function updateButtonStyle(playing) {
+            const button = document.getElementById("musicToggle");
+            if (playing) {
+                button.style.background = "#000000";
+                button.style.color = "#ffffff";
+                button.style.border = "2px solid #ffffff";
+            } else {
+                button.style.background = "#ffffff";
+                button.style.color = "#000000";
+                button.style.border = "2px solid #000000";
+            }
+        }
+
+        setInterval(() => {
+            if (player && typeof player.getDuration === "function" && typeof player.getCurrentTime === "function") {
+                const duration = player.getDuration();
+                const current = player.getCurrentTime();
+                if (duration && duration > 0) {
+                    const progress = (current / duration) * 100;
+                    document.getElementById("progressBar").value = progress || 0;
+                }
+            }
+        }, 1000);
+
+        document.getElementById("progressBar").addEventListener("input", function () {
+            if (player && typeof player.seekTo === "function" && typeof player.getDuration === "function") {
+                const duration = player.getDuration();
+                if (duration && duration > 0) {
+                    const seekTime = (this.value / 100) * duration;
+                    player.seekTo(seekTime, true);
+                }
+            }
         });
+
+        document.getElementById("volumeBar").addEventListener("input", function () {
+            if (player && typeof player.setVolume === "function") {
+                player.setVolume(this.value);
+                document.getElementById("volumeValue").textContent = this.value + "%";
+                lastVolume = this.value;
+                if (this.value > 0) {
+                    isMuted = false;
+                    updateMuteButtonStyle(false);
+                }
+            }
+        });
+
+        function toggleMute() {
+            if (player && typeof player.setVolume === "function") {
+                if (!isMuted) {
+                    lastVolume = player.getVolume();
+                    player.setVolume(0);
+                    document.getElementById("volumeBar").value = 0;
+                    document.getElementById("volumeValue").textContent = "0%";
+                    isMuted = true;
+                    updateMuteButtonStyle(true);
+                } else {
+                    player.setVolume(lastVolume || 50);
+                    document.getElementById("volumeBar").value = lastVolume || 50;
+                    document.getElementById("volumeValue").textContent = (lastVolume || 50) + "%";
+                    isMuted = false;
+                    updateMuteButtonStyle(false);
+                }
+            }
+        }
+
+        function updateMuteButtonStyle(muted) {
+            const muteButton = document.getElementById("muteToggle");
+            if (muted) {
+                muteButton.style.background = "#ffffff";
+                muteButton.style.color = "#000000";
+                muteButton.style.border = "2px solid #000000";
+            } else {
+                muteButton.style.background = "#000000";
+                muteButton.style.color = "#ffffff";
+                muteButton.style.border = "2px solid #ffffff";
+            }
+        }
     </script>
 </body>
 </html>
