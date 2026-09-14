@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 已將分頁標題改為較低調的 claen 風格 -->
   <title>✟ claen's castle ✟</title>
   <style>
     /* ----------------------------------------------------- */
@@ -16,16 +15,18 @@
     }
     html, body {
       width: 100%;
-      height: 100%;
+      min-height: 100%;
       background-color: #000000 !important;
-      overflow: hidden;
       user-select: none;
       font-family: monospace;
       color: #ffffff;
       position: relative;
     }
-    *, html, body, a, button, input, select, textarea {
-      cursor: none !important;
+    /* 桌機維持隱藏游標，手機端讓它恢復預設以方便觸控 */
+    @media (min-width: 901px) {
+      html, body, a, button, input, select, textarea {
+        cursor: none !important;
+      }
     }
 
     /* ----------------------------------------------------- */
@@ -41,9 +42,9 @@
       background-size: cover; 
       background-position: center;
       background-repeat: no-repeat;
-      opacity: 0.18; /* 若隱若現的暗色浮水印 */
-      pointer-events: none; /* 滑鼠點擊穿透，不干擾網頁互動 */
-      z-index: 2; /* 壓在純黑背景之上、其他UI元件之下 */
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 2;
     }
 
     /* ----------------------------------------------------- */
@@ -73,18 +74,18 @@
     /* ----------------------------------------------------- */
     .castle-header {
       width: 100%;
-      height: 75px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
       z-index: 10;
-      padding-top: 50px;
+      padding-top: 30px;
+      padding-bottom: 20px;
     }
 
     .castle-title-main {
-      font-size: 40px; 
+      font-size: 36px; 
       font-weight: bold;
       letter-spacing: 5px;
       color: #ffffff;
@@ -93,21 +94,21 @@
     }
 
     .castle-title-line {
-      width: 400px;
+      width: 80%;
+      max-width: 400px;
       border-bottom: 1.5px dashed #555;
       margin-top: 4px;
     }
 
     /* ----------------------------------------------------- */
-    /* 5. 【Flexbox 三欄式排版（微霧玻璃樣式）】 */
+    /* 5. 【Flexbox 三欄式排版（桌機預設）】 */
     /* ----------------------------------------------------- */
     .main-castle-container {
       width: 100%;
-      height: calc(100% - 48px - 75px);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0 30px;
+      padding: 0 20px 70px 20px; /* 底部留白避免被播放器擋住 */
       gap: 20px;
       position: relative;
       z-index: 10;
@@ -129,7 +130,6 @@
       box-shadow: 0 0 15px rgba(255,255,255,0.1);
       position: relative;
       overflow: hidden;
-      cursor: none !important;
     }
 
     .left-art-block img {
@@ -137,7 +137,6 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      cursor: none !important;
     }
 
     .art-nav-btn {
@@ -152,7 +151,6 @@
       z-index: 5;
       opacity: 0.7;
       transition: opacity 0.2s;
-      cursor: none !important;
     }
     .art-nav-btn:hover {
       opacity: 1;
@@ -193,7 +191,6 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      cursor: none !important;
     }
 
     #lightbox-img {
@@ -214,7 +211,6 @@
       border: 1px solid #fff;
       padding: 2px 12px;
       font-family: monospace;
-      cursor: none !important;
     }
     .lightbox-close:hover {
       background: #fff;
@@ -231,14 +227,13 @@
       font-size: 24px;
       padding: 10px 16px;
       font-family: monospace;
-      cursor: none !important;
     }
     .lightbox-nav:hover {
       background: #fff;
       color: #000;
     }
-    #lb-prev { left: 30px; }
-    #lb-next { right: 30px; }
+    #lb-prev { left: 20px; }
+    #lb-next { right: 20px; }
 
     #lb-counter {
       position: absolute;
@@ -383,15 +378,15 @@
       left: 0;
       width: 100%;
       height: 48px;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.9);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
       border-top: 1px solid #ffffff;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
-      gap: 16px;
+      padding: 0 12px;
+      gap: 10px;
       z-index: 999;
       font-size: 12px;
     }
@@ -399,7 +394,7 @@
     .player-left-group {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       flex-shrink: 0;
     }
 
@@ -408,15 +403,14 @@
       color: #ffffff;
       border: 1px solid #ffffff;
       font-family: monospace;
-      font-size: 12px;
-      padding: 3px 6px;
-      max-width: 140px;
+      font-size: 11px;
+      padding: 3px 4px;
+      max-width: 110px;
       outline: none;
-      cursor: none !important;
     }
 
     .player-center-group {
-      flex: 2;
+      flex: 1;
       display: flex;
       align-items: center;
     }
@@ -424,7 +418,7 @@
     .player-right-group {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       flex-shrink: 0;
     }
 
@@ -434,18 +428,16 @@
       height: 5px;
       border: 1px solid #666;
       outline: none;
-      cursor: none !important;
     }
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 8px;
       height: 12px;
       background: #ffffff;
-      cursor: none !important;
     }
 
     /* ----------------------------------------------------- */
-    /* 9. 【Y2K 連結懸停樣式與游標】 */
+    /* 9. 【Y2K 連結懸停樣式】 */
     /* ----------------------------------------------------- */
     a {
       color: #ffffff;
@@ -471,6 +463,38 @@
       animation: retroCursorBlink 0.3s steps(2) infinite, snowflakeFall 0.6s linear forwards;
       mix-blend-mode: difference !important; filter: grayscale(1) !important; -webkit-filter: grayscale(1) !important;
     }
+
+    /* ----------------------------------------------------- */
+    /* 10. 【手機響應式 RWD 斷點設定 (螢幕寬度小於 900px 時)】 */
+    /* ----------------------------------------------------- */
+    @media (max-width: 900px) {
+      .main-castle-container {
+        flex-direction: column; /* 改為直向上下堆疊 */
+        height: auto;
+        padding: 0 15px 70px 15px;
+        gap: 15px;
+      }
+      .left-art-block, .center-text-block, .right-pet-block {
+        width: 100%;
+        max-width: 100%;
+        height: 450px; /* 手機上統一高度，可視需要調整 */
+      }
+      /* 手機隱藏桌機專屬自訂游標，避免觸控干擾 */
+      #retro-cursor-main {
+        display: none !important;
+      }
+      /* 手機上微調播放器選單寬度 */
+      #songSelector {
+        max-width: 90px;
+        font-size: 10px;
+      }
+      .player-right-group span {
+        display: none; /* 手機空間小隱藏 VOL 文字標籤 */
+      }
+      #volumeBar {
+        width: 45px !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -493,12 +517,9 @@
   <!-- ======================================================= -->
   <!-- 【暗黑系桌寵：小惡魔 ✟】 -->
   <!-- ======================================================= -->
-  <div id="text-pet" style="position:fixed; bottom:40px; right:40px; pointer-events:auto; z-index:99990; user-select:none; font-family:monospace; line-height:1.2; font-weight:bold; white-space:pre; background:transparent; transition: all 0.3s steps(4); padding: 4px;">
-    
+  <div id="text-pet" style="position:fixed; bottom:60px; right:20px; pointer-events:auto; z-index:99990; user-select:none; font-family:monospace; line-height:1.2; font-weight:bold; white-space:pre; background:transparent; transition: all 0.3s steps(4); padding: 4px;">
     <div id="pet-bubble" style="display: none; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: #000000; color: #ffffff; border: 1.5px solid #ffffff; padding: 4px 8px; font-size: 12px; border-radius: 4px; white-space: nowrap; text-shadow: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); font-family: sans-serif;"></div>
-    
     <span id="pet-body" style="color:#ffffff; font-size:14px; display: block; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold;"></span>
-
   </div>
 
   <!-- ======================================================= -->
@@ -509,7 +530,7 @@
     <div class="castle-title-line"></div>
   </header>
 
-  <!-- 三欄式主舞台 -->
+  <!-- 三欄式主舞台（手機會自動變為直向排列） -->
   <div class="main-castle-container">
     
     <!-- 左欄：動態 GitHub 資料夾圖片展示區 -->
@@ -548,7 +569,6 @@
 
     <!-- 右欄：即時狀態 + Cbox 留言板 + 5位數計數器 -->
     <div class="right-pet-block">
-      
       <div>
         <div class="status-title">✟ current status ✟</div>
         <div class="status-item">
@@ -559,7 +579,7 @@
 
       <div style="border: 1px solid #333; background: rgba(0, 0, 0, 0.5);">
         <div style="font-size: 11px; color: #888; padding: 4px; text-align: center; border-bottom: 1px dashed #333;">✟ guestbook ✟</div>
-        <iframe src="https://www3.cbox.ws/box/?boxid=3560409&boxtag=ZOM8GA" width="100%" height="250" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
+        <iframe src="https://www3.cbox.ws/box/?boxid=3560409&boxtag=ZOM8GA" width="100%" height="220" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
       </div>
 
       <div class="custom-counter-box">
@@ -568,7 +588,6 @@
           <div id="visitor-num" class="counter-digit-text">00001</div>
         </div>
       </div>
-
     </div>
 
   </div>
@@ -581,17 +600,17 @@
   <div class="retro-audio-player-bar">
     <div class="player-left-group">
       <button id="prevSongBtn" onclick="prevSong()" title="上一首"
-        style="font-size:12px; min-width:28px; padding:3px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
+        style="font-size:12px; min-width:26px; padding:3px 5px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center;">
         ⏮
       </button>
 
       <button id="musicToggle" onclick="toggleMusic()" title="播放/暫停"
-        style="font-size:12px; min-width:32px; padding:3px 8px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
+        style="font-size:12px; min-width:30px; padding:3px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center;">
         ❚❚
       </button>
 
       <button id="nextSongBtn" onclick="nextSongManual()" title="下一首"
-        style="font-size:12px; min-width:28px; padding:3px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
+        style="font-size:12px; min-width:26px; padding:3px 5px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center;">
         ⏭
       </button>
 
@@ -617,12 +636,11 @@
 
     <div class="player-right-group">
       <span style="font-size:11px; color:#888;">VOL</span>
-      <input type="range" id="volumeBar" value="50" min="0" max="100" step="1" style="width:60px;" />
-      <span id="volumeValue" style="font-size:11px; color:#ffffff; width:30px;">50%</span>
+      <input type="range" id="volumeBar" value="50" min="0" max="100" step="1" style="width:55px;" />
+      <span id="volumeValue" style="font-size:11px; color:#ffffff; width:28px;">50%</span>
       
-      <!-- 已改為純白網頁向量 SVG 喇叭圖標按鈕 -->
       <button id="muteToggle" onclick="toggleMute()" title="靜音切換"
-        style="width:30px; height:26px; padding:0; border:2px solid #ffffff; background:#000000; display:flex; align-items:center; justify-content:center; cursor:none !important;">
+        style="width:28px; height:26px; padding:0; border:2px solid #ffffff; background:#000000; display:flex; align-items:center; justify-content:center;">
         <svg id="muteIconSvg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
           <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -632,7 +650,7 @@
     </div>
   </div>
 
-  <div id="retro-cursor-main" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999999; user-select: none; display: none; color: #ffffff !important; font-size: 24px; font-family: monospace; line-height: 1; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold; background: transparent !important; mix-blend-mode: normal !important; isolation: isolate !important; width: 24px; height: 24px; text-align: center;">◆</div>
+  <div id="retro-cursor-main" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999999; user-select: none; display: none; color: #ffffff !important; font-size: 24px; font-family: monospace; line-height: 1; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold; background: transparent !important; width: 24px; height: 24px; text-align: center;">◆</div>
 
   <script>
     /* GitHub 圖片抓取邏輯 */
@@ -810,6 +828,7 @@
 
       function triggerIdleWander() {
         if (pet.getAttribute('data-status') === 'scared') return;
+        if (window.innerWidth <= 900) return; // 手機版不亂跑，固定在右下角
 
         const isFollowingCursor = Math.random() < 0.5;
 
@@ -880,6 +899,7 @@
       setTimeout(triggerIdleWander, 10000);
 
       window.addEventListener('mousemove', function(e) {
+        if (window.innerWidth <= 900) return;
         const petRect = pet.getBoundingClientRect();
         const petCenterX = petRect.left + petRect.width / 2;
         const petCenterY = petRect.top + petRect.height / 2;
@@ -918,14 +938,14 @@
     (function() {
       const container = document.getElementById('star-fall-container');
       if (!container) return;
-      const spawnInterval = 350; 
+      const spawnInterval = 450; 
 
       function createStar() {
         const star = document.createElement('div');
         star.className = 'retro-star';
         star.innerHTML = '&#10022;';
         star.style.left = Math.random() * 100 + 'vw';
-        const baseSize = Math.floor(Math.random() * 21) + 8; 
+        const baseSize = Math.floor(Math.random() * 18) + 8; 
         star.style.fontSize = baseSize + 'px';
         const fallDuration = Math.random() * 10 + 15;
         const blinkDuration = (Math.random() * 0.4 + 0.6).toFixed(2);
@@ -941,8 +961,9 @@
       setInterval(createStar, spawnInterval);
     })();
 
-    /* 游標跟軌跡 */
+    /* 游標跟軌跡 (僅桌機) */
     (function() {
+      if (window.innerWidth <= 900) return;
       const cursor = document.getElementById('retro-cursor-main');
       if (cursor) {
         cursor.style.display = 'block';
@@ -952,7 +973,7 @@
       }
       let lastX = 0, lastY = 0;
       window.addEventListener('mousemove', e => {
-        if (Math.sqrt(Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2)) > 10) {
+        if (Math.sqrt(Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2)) > 12) {
           const star = document.createElement('div'); star.className = 'cursor-snow-star'; star.innerHTML = '◇';
           const size = Math.floor(Math.random() * 7) + 10; star.style.fontSize = size + 'px';
           const oX = e.clientX - (size / 2) + 3, oY = e.clientY - (size / 2) - 2;
@@ -963,7 +984,7 @@
       });
     })();
 
-    /* 訪客計數器（已加上防快取時間戳記，確保跨瀏覽器更靈敏） */
+    /* 訪客計數器 */
     (function() {
       const cacheBuster = new Date().getTime();
       fetch(`https://api.counterapi.dev/v1/claen_dark_castle/visits/up?t=${cacheBuster}`)
@@ -975,7 +996,7 @@
             if (numDisplay) numDisplay.innerText = formattedNum;
           }
         })
-        .catch(err => console.log('Counter API offline, fallback active.', err));
+        .catch(err => console.log('Counter API offline.', err));
     })();
 
     /* YouTube 播放器與控制邏輯 */
@@ -1030,12 +1051,14 @@
         window.removeEventListener('mousemove', tryPlayOnInteraction);
         window.removeEventListener('click', tryPlayOnInteraction);
         window.removeEventListener('keydown', tryPlayOnInteraction);
+        window.removeEventListener('touchstart', tryPlayOnInteraction);
       }
     }
 
     window.addEventListener('mousemove', tryPlayOnInteraction);
     window.addEventListener('click', tryPlayOnInteraction);
     window.addEventListener('keydown', tryPlayOnInteraction);
+    window.addEventListener('touchstart', tryPlayOnInteraction);
 
     function toggleMusic() {
       if (!player || typeof player.getPlayerState !== "function") return;
@@ -1152,7 +1175,6 @@
       const iconSvg = document.getElementById("muteIconSvg");
       
       if (muted) {
-        // 靜音狀態：純白靜音斜線圖標
         muteButton.style.background = "#ffffff";
         muteButton.style.border = "2px solid #000000";
         iconSvg.innerHTML = `
@@ -1161,7 +1183,6 @@
           <line x1="17" y1="9" x2="23" y2="15" stroke="#000000" stroke-width="2.5"></line>
         `;
       } else {
-        // 有聲音狀態：純白喇叭音量圖標
         muteButton.style.background = "#000000";
         muteButton.style.border = "2px solid #ffffff";
         iconSvg.innerHTML = `
