@@ -84,7 +84,7 @@
     /* ----------------------------------------------------- */
     .main-castle-container {
       width: 100%;
-      height: calc(100% - 75px - 30px);
+      height: calc(100% - 48px - 75px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -116,11 +116,12 @@
     .left-art-block img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover; /* 圖片填滿框框，裁切多餘部分 */
       display: block;
       cursor: none !important;
     }
 
+    /* 圖片切換按鈕微調 */
     .art-nav-btn {
       position: absolute;
       bottom: 10px;
@@ -143,6 +144,7 @@
     #prevArt { left: 10px; }
     #nextArt { right: 10px; }
 
+    /* 全圖放大提示字樣 */
     .zoom-hint {
       position: absolute;
       top: 10px;
@@ -158,7 +160,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 5. 【全螢幕燈箱 (Lightbox) 檢視器】 */
+    /* 5. 【全螢幕燈箱 (Lightbox) 檢視器】（z-index 設為 9000 讓游標維持在最上層） */
     /* ----------------------------------------------------- */
     #lightbox-modal {
       position: fixed;
@@ -229,7 +231,7 @@
       letter-spacing: 2px;
     }
 
-    /* 中欄：自介與超連結 */
+    /* 中欄：自介與超連結（微霧透光） */
     .center-text-block {
       flex: 1.2;
       max-width: 420px;
@@ -257,7 +259,7 @@
       background: #ffffff;
     }
 
-    /* 右欄：即時狀態、Cbox 留言板、音樂播放器與 5 位數自設計數器 */
+    /* 右欄：即時狀態、Cbox 留言板與 5 位數自設計數器（微霧透光） */
     .right-pet-block {
       flex: 1.1;
       max-width: 320px;
@@ -328,12 +330,12 @@
     .custom-counter-box {
       border: 1px dashed #444;
       background: rgba(5, 5, 5, 0.6);
-      padding: 8px;
+      padding: 12px 8px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 8px;
     }
 
     .counter-display-wrapper {
@@ -344,7 +346,7 @@
     }
 
     .counter-digit-text {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
       letter-spacing: 3px;
       color: #ffffff;
@@ -356,7 +358,76 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 7. 【Y2K 連結懸停樣式與游標】 */
+    /* 7. 【頁尾 YouTube 音樂播放器 Bar】 */
+    /* ----------------------------------------------------- */
+    .retro-audio-player-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 48px;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border-top: 1px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      gap: 12px;
+      z-index: 999;
+      font-size: 12px;
+    }
+
+    .player-left-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #songSelector {
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid #ffffff;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 3px 6px;
+      max-width: 140px;
+      outline: none;
+      cursor: none !important;
+    }
+
+    .player-center-group {
+      flex: 1;
+      max-width: 450px;
+      display: flex;
+      align-items: center;
+    }
+
+    .player-right-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #333;
+      height: 5px;
+      border: 1px solid #666;
+      outline: none;
+      cursor: none !important;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 8px;
+      height: 12px;
+      background: #ffffff;
+      cursor: none !important;
+    }
+
+    /* ----------------------------------------------------- */
+    /* 8. 【Y2K 連結懸停樣式與游標】（確保游標與軌跡特效永遠在最最最上層 z-index: 999999） */
     /* ----------------------------------------------------- */
     a {
       color: #ffffff;
@@ -399,11 +470,16 @@
   </div>
 
   <!-- ======================================================= -->
-  <!-- 【暗黑系桌寵：小惡魔 ✟】 -->
+  <!-- 【暗黑系桌寵：小惡魔 ✟】（完全獨立，100% 透明無方塊穿幫） -->
   <!-- ======================================================= -->
   <div id="text-pet" style="position:fixed; bottom:40px; right:40px; pointer-events:auto; z-index:99990; user-select:none; font-family:monospace; line-height:1.2; font-weight:bold; white-space:pre; background:transparent; transition: all 0.3s steps(4); padding: 4px;">
+    
+    <!-- 對話泡泡 -->
     <div id="pet-bubble" style="display: none; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: #000000; color: #ffffff; border: 1.5px solid #ffffff; padding: 4px 8px; font-size: 12px; border-radius: 4px; white-space: nowrap; text-shadow: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); font-family: sans-serif;"></div>
+    
+    <!-- 桌寵身體區 -->
     <span id="pet-body" style="color:#ffffff; font-size:14px; display: block; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold;"></span>
+
   </div>
 
   <!-- ======================================================= -->
@@ -451,7 +527,7 @@
       </div>
     </div>
 
-    <!-- 右欄：即時狀態 + Cbox + 音樂播放器 + 5位數計數器 -->
+    <!-- 右欄：即時狀態 + Cbox 留言板 + 5位數計數器 -->
     <div class="right-pet-block">
       
       <!-- 1. 即時狀態看板 -->
@@ -466,38 +542,12 @@
       <!-- 2. Cbox 免費留言板 -->
       <div style="border: 1px solid #333; background: rgba(0, 0, 0, 0.5);">
         <div style="font-size: 11px; color: #888; padding: 4px; text-align: center; border-bottom: 1px dashed #333;">✟ guestbook ✟</div>
-        <iframe src="https://www3.cbox.ws/box/?boxid=3560409&boxtag=ZOM8GA" width="100%" height="150" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
+        <iframe src="https://www3.cbox.ws/box/?boxid=3560409&boxtag=ZOM8GA" width="100%" height="250" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
       </div>
 
-      <!-- 3. 原本的頁尾播放器列（保留原本外觀） -->
-      <div style="border: 1px dashed #555; background: rgba(0,0,0,0.4); padding: 6px;">
-        <div id="player" style="display:none;"></div>
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-          <button id="musicToggle" onclick="toggleMusic()" 
-            style="font-size: 11px; padding: 2px 8px; border: 1px solid #fff; background: #000; color: #fff; font-family: monospace; cursor: none !important;">
-            ▶ 播放
-          </button>
-          <input type="range" id="progressBar" value="0" min="0" max="100" step="1" 
-            style="flex: 1; height: 4px; background: #333; border: 1px solid #555; outline: none; cursor: none !important;" />
-          <select id="songSelector" onchange="changeSong()" style="font-size: 10px; background: #000; color: #fff; border: 1px solid #fff; font-family: monospace; cursor: none !important; max-width: 110px;">
-            <option value="0">Gazette - Silly God Disco</option>
-            <option value="1">Miyavi - Tome To Jurii</option>
-            <option value="2">シド - アリバイ</option>
-            <option value="3">ギルガメッシュ - crying rain</option>
-            <option value="4">KAMIJO - 闇夜のライオン</option>
-            <option value="5">LOG - Adore you～キミヲ想フ声～</option>
-            <option value="6">Versailles - ASCENDEAD MASTER</option>
-            <option value="7">the GazettE - SHIVER</option>
-            <option value="8">KAMIJO - mademoiselle</option>
-            <option value="9">ViViD - 「夢」〜ムゲンノカナタ〜</option>
-            <option value="10">MIYAVI - Papa Mama</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- 4. 5位數計數器 -->
+      <!-- 3. 5位數計數器 -->
       <div class="custom-counter-box">
-        <div style="font-size: 9px; color: #888; letter-spacing: 1px;">VISITOR COUNTER</div>
+        <div style="font-size: 10px; color: #888; letter-spacing: 1px;">VISITOR COUNTER</div>
         <div class="counter-display-wrapper">
           <div id="visitor-num" class="counter-digit-text">00001</div>
         </div>
@@ -507,7 +557,49 @@
 
   </div>
 
-  <!-- 自訂實心文字菱形 ◆ 游標本體 -->
+  <!-- ----------------------------------------------------- -->
+  <!-- 7. 【頁尾 YouTube 音樂播放器 Bar】 -->
+  <!-- ----------------------------------------------------- -->
+  <div id="player" style="display:none;"></div>
+
+  <div class="retro-audio-player-bar">
+    <div class="player-left-group">
+      <button id="musicToggle" onclick="toggleMusic()" 
+        style="font-size:12px; min-width:32px; padding:3px 8px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center; cursor:none !important;">
+        ❚❚
+      </button>
+
+      <select id="songSelector" onchange="changeSong()">
+        <option value="0">Gazette - Silly God Disco</option>
+        <option value="1">Miyavi - Tome To Jurii</option>
+        <option value="2">シド - アリバイ</option>
+        <option value="3">ギルガメッシュ - crying rain</option>
+        <option value="4">KAMIJO - 闇夜のライオン</option>
+        <option value="5">LOG - Adore you～キミヲ想フ声～</option>
+        <option value="6">Versailles - ASCENDEAD MASTER</option>
+        <option value="7">the GazettE - SHIVER</option>
+        <option value="8">KAMIJO - mademoiselle</option>
+        <option value="9">ViViD - 「夢」〜ムゲンノカナタ〜</option>
+        <option value="10">MIYAVI - Papa Mama</option>
+      </select>
+    </div>
+
+    <div class="player-center-group">
+      <input type="range" id="progressBar" value="0" min="0" max="100" step="1" style="width:100%;" />
+    </div>
+
+    <div class="player-right-group">
+      <span style="font-size:11px; color:#888;">VOL</span>
+      <input type="range" id="volumeBar" value="50" min="0" max="100" step="1" style="width:60px;" />
+      <span id="volumeValue" style="font-size:11px; color:#ffffff; width:30px;">50%</span>
+      <button id="muteToggle" onclick="toggleMute()" 
+        style="font-size:11px; padding:2px 8px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; cursor:none !important;">
+        靜音
+      </button>
+    </div>
+  </div>
+
+  <!-- 自訂實心文字菱形 ◆ 游標本體（z-index 確保在 999999） -->
   <div id="retro-cursor-main" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999999; user-select: none; display: none; color: #ffffff !important; font-size: 24px; font-family: monospace; line-height: 1; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold; background: transparent !important; mix-blend-mode: normal !important; isolation: isolate !important; width: 24px; height: 24px; text-align: center;">◆</div>
 
   <script>
@@ -553,6 +645,7 @@
                   ` : ''}
                 `;
 
+                // 點擊圖片開啟燈箱全圖
                 const currentImg = document.getElementById('current-art-img');
                 if (currentImg) {
                   currentImg.addEventListener('click', () => {
@@ -595,7 +688,7 @@
                 currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
                 lbImg.src = imageUrls[currentIndex];
                 lbCounter.innerText = `${currentIndex + 1} / ${imageUrls.length}`;
-                renderGallery();
+                renderGallery(); // 同步更新左欄小圖位置
               });
 
               lbNext.addEventListener('click', (e) => {
@@ -603,7 +696,7 @@
                 currentIndex = (currentIndex + 1) % imageUrls.length;
                 lbImg.src = imageUrls[currentIndex];
                 lbCounter.innerText = `${currentIndex + 1} / ${imageUrls.length}`;
-                renderGallery();
+                renderGallery(); // 同步更新左欄小圖位置
               });
 
               renderGallery();
@@ -650,11 +743,22 @@
       ];
 
       const idleWanderQuotes = [
-        "啦啦啦～", "嘟嚕嘟嘟～", "啊哈哈～～", "呦！！！", "嗚呼！", "喔呀喔呀～", "牙類牙類～"
+        "啦啦啦～",
+        "嘟嚕嘟嘟～",
+        "啊哈哈～～",
+        "呦！！！",
+        "嗚呼！",
+        "喔呀喔呀～",
+        "牙類牙類～"
       ];
 
       const curiousQuotes = [
-        "這是在幹嘛？", "不理我了嗎？", "你人好像還不錯……", "（一臉好奇）", "我才沒有好奇你在幹嘛！", "" 
+        "這是在幹嘛？",
+        "不理我了嗎？",
+        "你人好像還不錯……",
+        "（一臉好奇）",
+        "我才沒有好奇你在幹嘛！",
+        "" 
       ];
 
       petBody.innerHTML = idle2;
@@ -679,10 +783,12 @@
 
       function triggerIdleWander() {
         if (pet.getAttribute('data-status') === 'scared') return;
+
         const isFollowingCursor = Math.random() < 0.5;
 
         if (isFollowingCursor) {
           pet.setAttribute('data-status', 'following');
+
           const randomQuote = curiousQuotes[Math.floor(Math.random() * curiousQuotes.length)];
           if (randomQuote && randomQuote.trim() !== "") {
             bubble.innerHTML = randomQuote;
@@ -690,15 +796,21 @@
           } else {
             bubble.style.display = 'none';
           }
+
           petBody.innerHTML = idle1; 
 
           const offsetX = (Math.random() - 0.5) * 180;
           const offsetY = (Math.random() - 0.5) * 180;
-          let targetX = Math.max(20, Math.min(window.innerWidth - 150, lastMouseX + offsetX));
-          let targetY = Math.max(20, Math.min(window.innerHeight - 150, lastMouseY + offsetY));
+          let targetX = lastMouseX + offsetX;
+          let targetY = lastMouseY + offsetY;
 
-          pet.style.right = 'auto'; pet.style.bottom = 'auto';
-          pet.style.left = targetX + 'px'; pet.style.top = targetY + 'px';
+          targetX = Math.max(20, Math.min(window.innerWidth - 150, targetX));
+          targetY = Math.max(20, Math.min(window.innerHeight - 150, targetY));
+
+          pet.style.right = 'auto';
+          pet.style.bottom = 'auto';
+          pet.style.left = targetX + 'px';
+          pet.style.top = targetY + 'px';
 
           setTimeout(() => {
             bubble.style.display = 'none';
@@ -707,17 +819,23 @@
               petBody.innerHTML = idle2;
             }
           }, 2000);
+
         } else {
           pet.setAttribute('data-status', 'wandering');
-          bubble.innerHTML = idleWanderQuotes[Math.floor(Math.random() * idleWanderQuotes.length)];
+          
+          const randomWanderQuote = idleWanderQuotes[Math.floor(Math.random() * idleWanderQuotes.length)];
+          bubble.innerHTML = randomWanderQuote;
           bubble.style.display = 'block';
+
           petBody.innerHTML = happy2;
 
           const newX = Math.floor(Math.random() * (window.innerWidth - 150)) + 20;
           const newY = Math.floor(Math.random() * (window.innerHeight - 150)) + 20;
 
-          pet.style.right = 'auto'; pet.style.bottom = 'auto';
-          pet.style.left = newX + 'px'; pet.style.top = newY + 'px';
+          pet.style.right = 'auto';
+          pet.style.bottom = 'auto';
+          pet.style.left = newX + 'px';
+          pet.style.top = newY + 'px';
 
           setTimeout(() => {
             bubble.style.display = 'none';
@@ -727,28 +845,38 @@
             }
           }, 1500);
         }
-        setTimeout(triggerIdleWander, Math.floor(Math.random() * 7000) + 9000);
+
+        const nextTime = Math.floor(Math.random() * 7000) + 9000;
+        setTimeout(triggerIdleWander, nextTime);
       }
 
       setTimeout(triggerIdleWander, 10000);
 
       window.addEventListener('mousemove', function(e) {
         const petRect = pet.getBoundingClientRect();
-        const distance = Math.sqrt(Math.pow(e.clientX - (petRect.left + petRect.width / 2), 2) + Math.pow(e.clientY - (petRect.top + petRect.height / 2), 2));
+        const petCenterX = petRect.left + petRect.width / 2;
+        const petCenterY = petRect.top + petRect.height / 2;
+        const distance = Math.sqrt(Math.pow(e.clientX - petCenterX, 2) + Math.pow(e.clientY - petCenterY, 2));
 
         if (distance < 100) {
           if (pet.getAttribute('data-status') === 'scared') return;
+
           pet.setAttribute('data-status', 'scared');
           petBody.innerHTML = scared;
 
           if (Math.random() < 0.4) {
-            bubble.innerHTML = scaredQuotes[Math.floor(Math.random() * scaredQuotes.length)];
+            const randomQuote = scaredQuotes[Math.floor(Math.random() * scaredQuotes.length)];
+            bubble.innerHTML = randomQuote;
             bubble.style.display = 'block'; 
           }
 
-          pet.style.right = 'auto'; pet.style.bottom = 'auto';
-          pet.style.left = (Math.floor(Math.random() * (window.innerWidth - 150)) + 20) + 'px';
-          pet.style.top = (Math.floor(Math.random() * (window.innerHeight - 150)) + 20) + 'px';
+          const newX = Math.floor(Math.random() * (window.innerWidth - 150)) + 20;
+          const newY = Math.floor(Math.random() * (window.innerHeight - 150)) + 20;
+
+          pet.style.right = 'auto';
+          pet.style.bottom = 'auto';
+          pet.style.left = newX + 'px';
+          pet.style.top = newY + 'px';
 
           setTimeout(() => {
             bubble.style.display = 'none'; 
@@ -765,7 +893,9 @@
     (function() {
       const container = document.getElementById('star-fall-container');
       if (!container) return;
-      setInterval(() => {
+      const spawnInterval = 350; 
+
+      function createStar() {
         const star = document.createElement('div');
         star.className = 'retro-star';
         star.innerHTML = '&#10022;';
@@ -773,13 +903,17 @@
         const baseSize = Math.floor(Math.random() * 21) + 8; 
         star.style.fontSize = baseSize + 'px';
         const fallDuration = Math.random() * 10 + 15;
+        const blinkDuration = (Math.random() * 0.4 + 0.6).toFixed(2);
+        
         star.style.animationName = 'retroBlink, starFall';
-        star.style.animationDuration = `${(Math.random() * 0.4 + 0.6).toFixed(2)}s, ${fallDuration}s`;
+        star.style.animationDuration = `${blinkDuration}s, ${fallDuration}s`;
         star.style.animationTimingFunction = 'steps(2), linear';
         star.style.animationIterationCount = 'infinite, linear';
+
         container.appendChild(star);
         setTimeout(() => star.remove(), fallDuration * 1000);
-      }, 350);
+      }
+      setInterval(createStar, spawnInterval);
     })();
 
     /* ----------------------------------------------------- */
@@ -814,18 +948,22 @@
         .then(response => response.json())
         .then(data => {
           if (data && typeof data.count !== 'undefined') {
-            document.getElementById('visitor-num').innerText = String(data.count).padStart(5, '0');
+            const formattedNum = String(data.count).padStart(5, '0');
+            const numDisplay = document.getElementById('visitor-num');
+            if (numDisplay) numDisplay.innerText = formattedNum;
           }
         })
         .catch(err => console.log('Counter API offline, fallback active.', err));
     })();
 
     /* ----------------------------------------------------- */
-    /* E. YouTube Iframe API 播放邏輯 (含自動解鎖自動播放) */
+    /* E. YouTube Iframe API 播放邏輯與自動播放解鎖機制 */
     /* ----------------------------------------------------- */
     let player;
-    let isPlaying = false;
+    let isPlaying = true;
     let currentIndex;
+    let lastVolume = 50;
+    let isMuted = false;
 
     const playlist = [
       "5kHXg0PTMzk", "tl87LjR3910", "gpxyLpwRrsk", "OBKWCn9je-E", "NXGi8A3iG60",
@@ -845,8 +983,9 @@
         events: {
           onReady: function () {
             player.playVideo();
-            isPlaying = true;
-            updateButtonText();
+            player.setVolume(50);
+            document.getElementById("volumeValue").textContent = "50%";
+            updateButtonStyle(true);
             document.getElementById("songSelector").value = currentIndex;
           },
           onStateChange: function (event) {
@@ -860,17 +999,18 @@
       });
     }
 
-    // 追蹤是否已經觸發過自動播放
+    // ==========================================
+    // 【自動播放防護解鎖機制】
+    // 突破瀏覽器限制：當偵測到滑鼠移動、點擊或按鍵時自動解鎖播放
+    // ==========================================
     let hasInteracted = false; 
 
-    // 監聽滑鼠移入網頁或點擊、按鍵的動作，突破瀏覽器限制自動開始播放
     function tryPlayOnInteraction() {
       if (!hasInteracted && player && typeof player.playVideo === "function") {
         player.playVideo();
         isPlaying = true;
-        updateButtonText();
+        updateButtonStyle(true);
         hasInteracted = true;
-        // 觸發後即可移除監聽
         window.removeEventListener('mousemove', tryPlayOnInteraction);
         window.removeEventListener('click', tryPlayOnInteraction);
         window.removeEventListener('keydown', tryPlayOnInteraction);
@@ -880,6 +1020,7 @@
     window.addEventListener('mousemove', tryPlayOnInteraction);
     window.addEventListener('click', tryPlayOnInteraction);
     window.addEventListener('keydown', tryPlayOnInteraction);
+    // ==========================================
 
     function toggleMusic() {
       if (!player || typeof player.getPlayerState !== "function") return;
@@ -891,7 +1032,7 @@
         player.playVideo();
         isPlaying = true;
       }
-      updateButtonText();
+      updateButtonStyle(isPlaying);
     }
 
     function changeSong() {
@@ -900,14 +1041,22 @@
       if (player && typeof player.loadVideoById === "function") {
         player.loadVideoById(playlist[index]);
         isPlaying = true;
-        updateButtonText();
+        updateButtonStyle(true);
       }
     }
 
-    function updateButtonText() {
-      const btn = document.getElementById("musicToggle");
-      if (btn) {
-        btn.innerText = isPlaying ? "❚❚ 暫停" : "▶ 播放";
+    function updateButtonStyle(playing) {
+      const button = document.getElementById("musicToggle");
+      if (playing) {
+        button.innerText = "❚❚";
+        button.style.background = "#000000";
+        button.style.color = "#ffffff";
+        button.style.border = "2px solid #ffffff";
+      } else {
+        button.innerText = "▶";
+        button.style.background = "#ffffff";
+        button.style.color = "#000000";
+        button.style.border = "2px solid #000000";
       }
     }
 
@@ -926,10 +1075,55 @@
       if (player && typeof player.seekTo === "function" && typeof player.getDuration === "function") {
         const duration = player.getDuration();
         if (duration && duration > 0) {
-          player.seekTo((this.value / 100) * duration, true);
+          const seekTime = (this.value / 100) * duration;
+          player.seekTo(seekTime, true);
         }
       }
     });
+
+    document.getElementById("volumeBar").addEventListener("input", function () {
+      if (player && typeof player.setVolume === "function") {
+        player.setVolume(this.value);
+        document.getElementById("volumeValue").textContent = this.value + "%";
+        lastVolume = this.value;
+        if (this.value > 0) {
+          isMuted = false;
+          updateMuteButtonStyle(false);
+        }
+      }
+    });
+
+    function toggleMute() {
+      if (player && typeof player.setVolume === "function") {
+        if (!isMuted) {
+          lastVolume = player.getVolume();
+          player.setVolume(0);
+          document.getElementById("volumeBar").value = 0;
+          document.getElementById("volumeValue").textContent = "0%";
+          isMuted = true;
+          updateMuteButtonStyle(true);
+        } else {
+          player.setVolume(lastVolume || 50);
+          document.getElementById("volumeBar").value = lastVolume || 50;
+          document.getElementById("volumeValue").textContent = (lastVolume || 50) + "%";
+          isMuted = false;
+          updateMuteButtonStyle(false);
+        }
+      }
+    }
+
+    function updateMuteButtonStyle(muted) {
+      const muteButton = document.getElementById("muteToggle");
+      if (muted) {
+        muteButton.style.background = "#ffffff";
+        muteButton.style.color = "#000000";
+        muteButton.style.border = "2px solid #000000";
+      } else {
+        muteButton.style.background = "#000000";
+        muteButton.style.color = "#ffffff";
+        muteButton.style.border = "2px solid #ffffff";
+      }
+    }
   </script>
 </body>
 </html>
