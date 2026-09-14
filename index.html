@@ -270,7 +270,7 @@
       background: #ffffff;
     }
 
-    /* 右欄：即時狀態、Cbox 留言板與計數器 */
+    /* 右欄：即時狀態與 Cbox 留言板 */
     .right-pet-block {
       flex: 1.1;
       max-width: 320px;
@@ -335,41 +335,37 @@
       text-decoration: none;
     }
 
-    /* ----------------------------------------------------- */
-    /* 7. 【5 位數字計數器模組】 */
-    /* ----------------------------------------------------- */
-    .custom-counter-box {
-      border: 1px dashed #444;
-      background: rgba(5, 5, 5, 0.6);
-      padding: 12px 8px;
-      text-align: center;
+    /* 跳動星星裝飾區塊樣式（改為橫向均分填滿） */
+    .jumping-stars-box {
+      border: 1px dashed #555;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 12px;
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      margin-bottom: 8px;
     }
 
-    .counter-display-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+    @keyframes jumpStarAnim {
+      0%, 100% { transform: translateY(0); opacity: 0.5; }
+      50% { transform: translateY(-5px); opacity: 1; text-shadow: 0 0 8px #fff; }
     }
 
-    .counter-digit-text {
-      font-size: 22px;
-      font-weight: bold;
-      letter-spacing: 3px;
-      color: #ffffff;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-      font-family: monospace;
-      border: 1px solid #333;
-      padding: 2px 8px;
-      background: #000;
+    .jumping-star {
+      display: inline-block;
+      font-size: 14px;
+      animation: jumpStarAnim 1s ease-in-out infinite;
     }
+    .jumping-star:nth-child(1) { animation-delay: 0.0s; }
+    .jumping-star:nth-child(2) { animation-delay: 0.15s; }
+    .jumping-star:nth-child(3) { animation-delay: 0.3s; }
+    .jumping-star:nth-child(4) { animation-delay: 0.45s; }
+    .jumping-star:nth-child(5) { animation-delay: 0.6s; }
+    .jumping-star:nth-child(6) { animation-delay: 0.75s; }
+    .jumping-star:nth-child(7) { animation-delay: 0.9s; }
 
     /* ----------------------------------------------------- */
-    /* 8. 【頁尾 YouTube 音樂播放器 Bar】 */
+    /* 7. 【頁尾 YouTube 音樂播放器 Bar】 */
     /* ----------------------------------------------------- */
     .retro-audio-player-bar {
       position: fixed;
@@ -436,7 +432,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 9. 【Y2K 連結懸停樣式】 */
+    /* 8. 【Y2K 連結懸停樣式】 */
     /* ----------------------------------------------------- */
     a {
       color: #ffffff;
@@ -464,7 +460,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 10. 【手機響應式 RWD 斷點設定】 */
+    /* 9. 【手機響應式 RWD 斷點設定】 */
     /* ----------------------------------------------------- */
     @media (max-width: 900px) {
       .main-castle-container {
@@ -564,7 +560,7 @@
       </div>
     </div>
 
-    <!-- 右欄：即時狀態 + Cbox 留言板 + 5位數計數器 -->
+    <!-- 右欄：即時狀態 + Cbox 留言板 + 橫向填滿跳動星星 -->
     <div class="right-pet-block">
       <div>
         <div class="status-title">✟ current status ✟</div>
@@ -574,16 +570,21 @@
         </div>
       </div>
 
+      <!-- Cbox 留言板移到中間 -->
       <div style="border: 1px solid #333; background: rgba(0, 0, 0, 0.5);">
         <div style="font-size: 11px; color: #888; padding: 4px; text-align: center; border-bottom: 1px dashed #333;">✟ guestbook ✟</div>
         <iframe src="https://www3.cbox.ws/box/?boxid=3560409&boxtag=ZOM8GA" width="100%" height="220" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
       </div>
 
-      <div class="custom-counter-box">
-        <div style="font-size: 10px; color: #888; letter-spacing: 1px;">VISITOR COUNTER</div>
-        <div class="counter-display-wrapper">
-          <div id="visitor-num" class="counter-digit-text">01342</div>
-        </div>
+      <!-- 跳動星星裝飾移到下方並改為橫向填滿 -->
+      <div class="jumping-stars-box">
+        <span class="jumping-star">✦</span>
+        <span class="jumping-star">✧</span>
+        <span class="jumping-star">✦</span>
+        <span class="jumping-star">✧</span>
+        <span class="jumping-star">✦</span>
+        <span class="jumping-star">✧</span>
+        <span class="jumping-star">✦</span>
       </div>
     </div>
 
@@ -981,27 +982,7 @@
       });
     })();
 
-    /* 穩定版本地儲存 + 跨訪客計數器（保證會跳動） */
-    (function() {
-      const numDisplay = document.getElementById('visitor-num');
-      if (!numDisplay) return;
-
-      let baseCount = 1340;
-      let storedCount = localStorage.getItem('claen_castle_visits');
-      
-      if (!storedCount) {
-        storedCount = baseCount + Math.floor(Math.random() * 50);
-      } else {
-        storedCount = parseInt(storedCount, 10) + 1;
-      }
-
-      localStorage.setItem('claen_castle_visits', storedCount);
-
-      const formattedNum = String(storedCount).padStart(5, '0');
-      numDisplay.innerText = formattedNum;
-    })();
-
-    /* YouTube 播放器與控制邏輯（完全保留你原本的自動播放設定） */
+    /* YouTube 播放器與控制邏輯 */
     let player;
     let isPlaying = true;
     let currentIndex;
