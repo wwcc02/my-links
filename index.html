@@ -47,16 +47,11 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 3. 【古早味十字星飄落樣式】 */
+    /* 3. 【古早味十字星飄落與慢速一幀一滅頓挫閃爍樣式】 */
     /* ----------------------------------------------------- */
     @keyframes retroBlink {
-      0%, 100% { transform: scale(0.3); opacity: 0; }
-      50% { transform: scale(1.3); opacity: 1; }
-    }
-
-    @keyframes starFall {
-      0% { top: -30px; transform: translateX(0); }
-      100% { top: 105vh; transform: translateX(35px); }
+      0%, 25%, 50%, 75%, 100% { opacity: 0; transform: scale(0.6); }
+      12.5%, 37.5%, 62.5%, 87.5% { opacity: 1; transform: scale(1.2); text-shadow: 0 0 6px #fff; }
     }
 
     .retro-star {
@@ -66,6 +61,8 @@
       line-height: 1;
       pointer-events: none;
       user-select: none;
+      /* 讓閃爍動畫無限循環，不會停下來 */
+      animation: retroBlink 2.2s steps(1) infinite;
     }
 
     /* ----------------------------------------------------- */
@@ -113,7 +110,7 @@
       z-index: 10;
     }
 
-    /* 左欄：動態抓取 GitHub 資料夾插畫區（高度調整為 720px） */
+    /* 左欄：動態抓取 GitHub 資料夾插畫區（高度 720px） */
     .left-art-block {
       flex: 1;
       max-width: 330px;
@@ -242,7 +239,7 @@
       letter-spacing: 2px;
     }
 
-    /* 中欄：自介與超連結（高度調整為 720px） */
+    /* 中欄：自介與超連結（高度 720px） */
     .center-text-block {
       flex: 1.2;
       max-width: 420px;
@@ -270,7 +267,7 @@
       background: #ffffff;
     }
 
-    /* 右欄：即時狀態與 Cbox 留言板（高度調整為 720px） */
+    /* 右欄：即時狀態與 Cbox 留言板（高度 720px） */
     .right-pet-block {
       flex: 1.1;
       max-width: 320px;
@@ -335,7 +332,7 @@
       text-decoration: none;
     }
 
-    /* 跳動星星裝飾區塊樣式（改為橫向均分填滿） */
+    /* 跳動星星裝飾區塊樣式（橫向均分填滿） */
     .jumping-stars-box {
       border: 1px dashed #555;
       background: rgba(0, 0, 0, 0.3);
@@ -940,7 +937,7 @@
       });
     })();
 
-    /* 十字星飄落 */
+    /* 十字星飄落與持續頓挫閃爍（修正版） */
     (function() {
       const container = document.getElementById('star-fall-container');
       if (!container) return;
@@ -953,13 +950,25 @@
         star.style.left = Math.random() * 100 + 'vw';
         const baseSize = Math.floor(Math.random() * 18) + 8; 
         star.style.fontSize = baseSize + 'px';
-        const fallDuration = Math.random() * 10 + 15;
-        const blinkDuration = (Math.random() * 0.4 + 0.6).toFixed(2);
         
-        star.style.animationName = 'retroBlink, starFall';
-        star.style.animationDuration = `${blinkDuration}s, ${fallDuration}s`;
-        star.style.animationTimingFunction = 'steps(2), linear';
-        star.style.animationIterationCount = 'infinite, linear';
+        const fallDuration = Math.random() * 10 + 15; // 掉落時間 (15s ~ 25s)
+        const blinkDuration = (Math.random() * 1.4 + 2.0).toFixed(2); // 閃爍頻率維持慢速 (2.0s ~ 3.4s)
+        
+        // 賦予專屬的慢速閃爍頻率
+        star.style.animationDuration = `${blinkDuration}s`;
+        star.style.animationName = 'retroBlink';
+        star.style.animationTimingFunction = 'steps(1)';
+        star.style.animationIterationCount = 'infinite';
+
+        // 使用 Web Animations API 處理等速直線下墬，確保從頂到底一路掉完且持續閃爍
+        star.animate([
+          { top: '-10vh', transform: 'translateX(0)' },
+          { top: '110vh', transform: 'translateX(35px)' }
+        ], {
+          duration: fallDuration * 1000,
+          iterations: 1,
+          easing: 'linear'
+        });
 
         container.appendChild(star);
         setTimeout(() => star.remove(), fallDuration * 1000);
