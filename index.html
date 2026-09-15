@@ -220,7 +220,7 @@
       letter-spacing: 2px;
     }
 
-    /* More About Me 彈跳視窗樣式 */
+    /* More About Me 彈跳視窗樣式（包含分頁設計） */
     #about-modal {
       position: fixed;
       top: 0;
@@ -236,8 +236,8 @@
     }
     .about-content-box {
       width: 90%;
-      max-width: 650px;
-      height: 80vh;
+      max-width: 700px;
+      height: 82vh;
       background: rgba(0, 0, 0, 0.95);
       border: 2px solid #ffffff;
       padding: 25px;
@@ -246,27 +246,11 @@
       position: relative;
       box-shadow: 0 0 25px rgba(255,255,255,0.2);
     }
-    .about-body {
-      flex: 1;
-      overflow-y: auto;
-      font-size: 12px;
-      line-height: 1.8;
-      color: #ccc;
-      padding-right: 10px;
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-    .about-body::-webkit-scrollbar {
-      width: 6px;
-    }
-    .about-body::-webkit-scrollbar-thumb {
-      background: #ffffff;
-    }
     .about-close-btn {
       position: absolute;
       top: 15px;
       right: 20px;
-      font-size: 16px;
+      font-size: 14px;
       color: #aaa;
       background: transparent;
       border: 1px solid #aaa;
@@ -278,6 +262,65 @@
       color: #fff;
       border-color: #fff;
       background: #222;
+    }
+
+    /* 分頁按鈕列 */
+    .tab-header-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 15px;
+      border-bottom: 1px dashed #555;
+      padding-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: transparent;
+      border: 1px solid #555;
+      color: #888;
+      padding: 5px 10px;
+      font-family: monospace;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      font-weight: bold;
+    }
+
+    /* 內容滾動區 */
+    .about-body {
+      flex: 1;
+      overflow-y: auto;
+      font-size: 12px;
+      line-height: 1.8;
+      color: #ccc;
+      padding-right: 10px;
+    }
+    .about-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    .about-body::-webkit-scrollbar-thumb {
+      background: #ffffff;
+    }
+
+    /* 區塊標題與項目樣式 */
+    .section-title {
+      color: #fff;
+      font-weight: bold;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      font-size: 13px;
+      border-left: 3px solid #fff;
+      padding-left: 6px;
+    }
+    .tags-container {
+      color: #aaa;
+      margin-bottom: 12px;
+      font-size: 11px;
+      word-break: break-all;
     }
 
     .center-text-block {
@@ -551,169 +594,91 @@
     <div id="lb-counter">1 / 1</div>
   </div>
 
-  <!-- More About Me 彈跳視窗 -->
+  <!-- More About Me 彈跳視窗（含分類分頁） -->
   <div id="about-modal">
     <div class="about-content-box">
       <button class="about-close-btn" id="about-close">✕ CLOSE</button>
       <div style="font-size: 15px; font-weight: bold; border-bottom: 1px dashed #ffffff; padding-bottom: 6px; margin-bottom: 14px; letter-spacing: 2px;">✟ more about me ✟</div>
-      <div class="about-body">•°•喜愛ㄉ虛擬歌手•°•
+      
+      <!-- 分頁標籤按鈕列 -->
+      <div class="tab-header-row">
+        <button class="tab-btn active" onclick="switchTab('games', this)">喜愛作品</button>
+        <button class="tab-btn" onclick="switchTab('vocal', this)">虛擬歌手</button>
+        <button class="tab-btn" onclick="switchTab('cp', this)">嗑ㄉCP</button>
+        <button class="tab-btn" onclick="switchTab('thunder', this)">雷點注意</button>
+      </div>
 
-◇VOCALOID：
- 初音ミク、KAITO、VY2、歌音ピコ、Gakupo、氷山キヨテル、鏡音レン、鏡音リント、Gumi、Dex
+      <!-- 內容顯示區域 -->
+      <div class="about-body">
+        
+        <!-- 分頁 1：喜愛作品 -->
+        <div id="tab-games" class="tab-content" style="display: block;">
+          <div class="section-title">PC & 家機遊戲</div>
+          <div class="tags-container">
+            We Dance Online 唯舞獨尊 (Most Favorite!) / TOUCH 炫舞 / ClubMstar / osu! / UNLIGHT: Revive / 幻想神域 / 幻塔 / 鳴潮 / 戰雙帕彌什 / 第七史詩 / 伊瑟 / 女神異聞錄：夜幕魅影 / 黑岩射手 THE GAME / 夢幻之星2：新世紀 / 最終幻想XV / 音速小子 未知邊境 / 音速小子賽車 交叉世界 / 初音未來 Project Diva 系列
+          </div>
 
-◆FANLOID：
- 初音ミクオ、巡音ルキ、AKAITO、TAITO、ZEITO、BAITO、鏡音リント、鏡音レンカ、Gumiya
+          <div class="section-title">手機遊戲</div>
+          <div class="tags-container">
+            Cytus / Cytus II / Crash Fever / Compass / 聚爆 / 蒼翼：混沌效應 / 電馭跑酷
+          </div>
 
-◇UTAU：
- 松田っぽいよ、松田っぽいね、瑞歌ミズキ、月代はくぽ、湯鬱声からす、紫音月疾風、漁夫、屈原、夏語遙、夏言律、喬安、奧斯卡、雨音沉、萌約玲、萌約寧、紫音月疾風
+          <div class="section-title">動漫深坑</div>
+          <div class="tags-container">
+            魔法科高校的劣等生 / Little Busters！ / 緋色的欠片 / 兄弟鬥爭 / 吸血鬼僕人 / 吸血鬼騎士 / K / 暗殺教室 / 妖怪少爺 / 卡片戰鬥！先導者 / 革命機Valvrave / 排球少年 / MAO摩緒 / 特殊傳說 / 玄日狩 / 非關英雄 / 吾命騎士 / 風動鳴
+          </div>
+        </div>
 
-◆DEEPVOCAL：
- 噓歌まふ
+        <!-- 分頁 2：虛擬歌手 -->
+        <div id="tab-vocal" class="tab-content" style="display: none;">
+          <div class="section-title">VOCALOID</div>
+          <div class="tags-container">
+            初音ミク、KAITO、VY2、歌音ピコ、Gakupo、氷山キヨテル、鏡音レン、鏡音リント、Gumi、Dex
+          </div>
 
-•°•喜愛ㄉ作品•°•
+          <div class="section-title">FANLOID</div>
+          <div class="tags-container">
+            初音ミクオ、巡音ルキ、AKAITO、TAITO、ZEITO、BAITO、鏡音リント、鏡音レンカ、Gumiya
+          </div>
 
-◇PC GAMES：
- We Dance Online 唯舞獨尊
- TOUCH 炫舞
- ClubMstar
- osu!
- UNLIGHT: Revive
- Aura Kingdom 幻想神域
- Tower Of Fantasy 幻塔
- Wuthering Waves 鳴潮
- Punishing: Gray Raven 戰雙帕彌什
- Epic Seven 第七史詩
- Etheria 伊瑟
- Persona 5: The Phantom X 女神異聞錄：夜幕魅影
+          <div class="section-title">UTAU</div>
+          <div class="tags-container">
+            松田っぽいよ、松田っぽいね、瑞歌ミズキ、月代はくぽ、湯鬱声からす、紫音月疾風、漁夫、屈原、夏語遙、夏言律、喬安、奧斯卡、雨音沉、萌約玲、萌約寧
+          </div>
+        </div>
 
-◆BROWSER GAMES：
- Pony Town 小馬鎮
+        <!-- 分頁 3：CP 列表 -->
+        <div id="tab-cp" class="tab-content" style="display: none;">
+          <div class="section-title">排球少年</div>
+          <div class="tags-container">
+            及影、菅影、金影、國影、岩影、侑影、治影、研影、赤影、日影、月影、黑影、列影、澤影、忠影、影忠、影谷、月山、岩金、國金、松金、花金、及岩、青二、鐮二、黃二
+          </div>
 
-◇PLAYSTATION GAMES：
- BLACK★ROCK SHOOTER THE GAME 黑岩射手
- PSO2NGS 夢幻之星2：新世紀
- Final FantasyXV 最終幻想XV
- Sonic Frontiers 音速小子 未知邊境
- Sonic Racing: CrossWorlds 索尼克賽車 交叉世界
- Sonic Racing: CrossWorlds 音速小子賽車 交叉世界
- Hatsune Miku: Project Diva、 X、Future Tone、Future Tone DX 初音未來：名伶計畫X、Future Tone、Future Tone DX
- Brothers Conflict Brilliant Blue 兄弟鬥爭 光輝燦藍
+          <div class="section-title">特殊傳說</div>
+          <div class="tags-container">
+            冰漾、重漾、夏漾、安漾、利漾、哈漾、然漾、玥漾、千漾、休漾、衛漾、萊斯利亞漾、西漾、萊恩漾、夏冰、安冰、亞凡、深殊
+          </div>
 
-◆MOBILE GAMES：
- Cytus
- Cytus II
- Crash Fever
- Compass
- Implosion 聚爆
- Blazblue Entropy Effect蒼翼：混沌效應
- Cyber Parkour 電馭跑酷
- DISSDIA FF
+          <div class="section-title">暗殺教室</div>
+          <div class="tags-container">
+            秀業、渚業、磯業、前業、寺業、烏業、殺業、榊學、業渚、業愛、業櫻
+          </div>
+        </div>
 
-◇Waiting：
- Ananda 無限大
- Silver Palace 白銀之城
- Brothers Conflict Passion Pink 兄弟鬥爭 激情粉紅
+        <!-- 分頁 4：雷點注意 -->
+        <div id="tab-thunder" class="tab-content" style="display: none;">
+          <div class="section-title">雷點</div>
+          <div class="tags-container">
+            小黃臉 (真的很討厭，但會自行避雷) / 某些流行語 (是在哈囉、塑膠......) / yee / 是台灣人卻用中國用詞和發音
+          </div>
 
-Favorite game, We Dance Online 最愛的是唯舞獨尊
+          <div class="section-title">雷人的點</div>
+          <div class="tags-container">
+            會耍中二 (超偶爾) / 多管閒事 / 顏文字 / 日本網路用語的笑 (wwww) / 講話有時莫名變得直接
+          </div>
+        </div>
 
-
-◆較深坑：
- 魔法科高校的劣等生、Little Busters！、緋色的欠片、兄弟鬥爭、吸血鬼僕人、吸血鬼騎士、K、暗殺教室、妖怪少爺、卡片戰鬥！先導者、革命機Valvrave、排球少年、MAO摩緒、特殊傳說、玄日狩、非關英雄、暴走之歌、吾命騎士、風動鳴、光之祭司、我，精靈王，缺錢、國王遊戲
-
-•°•注意踩雷•°•
-
-◇雷點：
- 小黃臉(真的很討厭，但會自行避雷)、某些流行語(是在哈囉、塑膠......)、yee、是台灣人卻用中國用詞和發音
-
-◆雷人的點：
- 會耍中二(超偶爾)、多管閒事、顏文字、日本網路用語的笑(wwww)、講話有時莫名變得直接
-
-
-•°•有在嗑ㄉCP•°•
-
-◇魔法科高校的劣等生：
- 達幹、西達、桐達、碧達
-
-◆Little Busters！：
- 恭理、理鈴
-
-◇吸血鬼僕人：
- 黑真、真黑、海黑、椿黑、櫻真
-
-◆吸血鬼騎士：
- 樞零、縷零、鷹零、零優
-
-◇革命機Valvrave：
- 晴艾
-
-◆卡片戰鬥！先導者：
- 櫂愛、蓮愛
-
-◇緋色的欠片：
- 拓珠
-
-◆暗殺教室：
- 秀業、渚業、磯業、前業、寺業、烏業、殺業、榊學、業渚、業愛、業櫻
-
-◇兄弟鬥爭：
- 風侑、椿侑、梓侑、棗侑、祈侑、昴侑、麻侑、侑麻
-
-◆炎炎消防隊：
- 亞羅、櫻羅
-
-◇魔導少年：
- 格納、史納、納露
-
-◆東京暗鴉：
- 東春、春夏
-
-◇惡魔奶爸：
- 東男、古男、男古
-
-◆惡魔的謎語：
- 兔晴
-
-◇東京喰種：
- 習研、雙研
-
-◆排球少年：
- 及影、菅影、金影、國影、岩影、侑影、治影、研影、赤影、日影、月影、黑影、列影、澤影、忠影、影忠、影谷、月山、岩金、國金、松金、花金、及岩、青二、鐮二、黃二
-
-◇幽遊白書：
- 藏幽、飛幽、桑幽、幽螢
-
-◆特殊傳說：
- 冰漾、重漾、夏漾、安漾、利漾、哈漾、然漾、玥漾、千漾、休漾、衛漾、萊斯利亞漾、西漾、萊恩漾、夏冰、安冰、亞凡、深殊
-
-◇亂馬1/2：
- 良亂、亂茜
-
-◆我推的孩子：
- 光夸、露夸
-
-◇吾命騎士：
- 格雷、雷格
-
-◆玄日狩：
- 月炎、艾夜
-
-◇暴走之歌：
- 希利
-
-◆風動鳴：
- 羅艾、安艾、音艾、闇艾、艾音
-
-◇Gang Start：異世界極道傳說：
- 冠秋、奧秋
-
-◆幻塔：
- 夏琅
-
-◇鳴潮：
- 忌漂♂、傷漂♂、卡漂♂、臨忌、卡忌
-
-◆崩壞：星穹鐵道：
- 刃穹、景穹、桑穹、傑穹、丹穹、盧穹、納穹、藥穹、傑桑、桑盧</div>
+      </div>
     </div>
   </div>
 
@@ -758,33 +723,20 @@ Favorite game, We Dance Online 最愛的是唯舞獨尊
 
       <div style="font-size: 14px; font-weight: bold; margin-top: 6px; color: #fff;">◇°•連結傳送陣•°◆</div>
       
-      <!-- 1: 左空右實 -->
+      <!-- 連結傳送陣清單 -->
       <a href="https://xxclaenxx.blogspot.com/" target="_blank">☆ blogger ★</a>
-      <!-- 2: 左實右空 -->
       <a href="https://z710601z.pixnet.net/blog" target="_blank">★ pixnet ☆</a>
-      <!-- 3: 左空右實 -->
       <a href="https://www.youtube.com/@Xx_claen_xX" target="_blank">☆ youtube ★</a>
-      <!-- 4: 左實右空 -->
       <a href="https://xxclaenxx.tumblr.com/" target="_blank">★ tumblr ☆</a>
-      <!-- 5: 左空右實 -->
       <a href="https://home.gamer.com.tw/profile/index_feed.php?owner=claen1115" target="_blank">☆ bahamut ★</a>
-      <!-- 6: 左實右空 -->
       <a href="https://www.facebook.com/XxclaenxX/" target="_blank">★ facebook personal ☆</a>
-      <!-- 7: 左空右實 -->
       <a href="https://www.facebook.com/claenyinling/" target="_blank">☆ facebook fanpage ★</a>
-      <!-- 8: 左實右空 -->
       <a href="https://www.instagram.com/xxclaenxx/" target="_blank">★ instagram ☆</a>
-      <!-- 9: 左空右實 -->
       <a href="https://www.threads.com/@xxclaenxx" target="_blank">☆ threads ★</a>
-      <!-- 10: 左實右空 -->
       <a href="https://www.plurk.com/Xx_claen_xX" target="_blank">★ plurk ☆</a>
-      <!-- 11: 左空右實 -->
       <a href="https://bsky.app/profile/xxclaenxx.bsky.social" target="_blank">☆ bluesky ★</a>
-      <!-- 12: 左實右空 -->
       <a href="https://medibang.com/u/claen/" target="_blank">★ artstreet ☆</a>
-      <!-- 13: 左空右實 -->
       <a href="https://www.pixiv.net/users/19211895" target="_blank">☆ pixiv ★</a>
-      <!-- 14: 左實右空 -->
       <a href="https://www.flyingmilktea.com/profile/?claen/" target="_blank">★ flying milk tea ☆</a>
       
       <div style="font-size: 11px; color: #666; margin-top: 10px; border-top: 1px dashed #444; padding-top: 6px;">
@@ -827,11 +779,8 @@ Favorite game, We Dance Online 最愛的是唯舞獨尊
 
   <div class="retro-audio-player-bar">
     <div class="player-left-group">
-      <!-- 上一首按鈕 -->
       <button class="player-ctrl-btn" onclick="prevSong()" title="上一首">⏮</button>
-      <!-- 播放/暫停按鈕 -->
       <button id="musicToggle" class="player-ctrl-btn" onclick="toggleMusic()" title="播放/暫停">❚❚</button>
-      <!-- 下一首按鈕 -->
       <button class="player-ctrl-btn" onclick="nextSong()" title="下一首">⏭</button>
 
       <select id="songSelector" onchange="changeSong()">
@@ -849,18 +798,15 @@ Favorite game, We Dance Online 最愛的是唯舞獨尊
       </select>
     </div>
 
-    <!-- 進度條 -->
     <div class="player-center-group">
       <input type="range" id="progressBar" value="0" min="0" max="100" step="1" style="width:100%;" />
     </div>
 
-    <!-- 音量與靜音群組 -->
     <div class="player-right-group">
       <span style="font-size:11px; color:#888;">VOL</span>
       <input type="range" id="volumeBar" value="50" min="0" max="100" step="1" style="width:55px;" />
       <span id="volumeValue" style="font-size:11px; color:#ffffff; width:28px;">50%</span>
       
-      <!-- 向量 SVG 靜音按鈕 -->
       <button id="muteToggle" class="player-ctrl-btn" onclick="toggleMute()" title="靜音">
         <svg viewBox="0 0 24 24">
           <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77-2.99-7.86-7-8.77z"/>
@@ -901,6 +847,22 @@ Favorite game, We Dance Online 最愛的是唯舞獨尊
         openBtn.style.color = '#777777';
       });
     })();
+
+    /* 分頁切換功能 */
+    function switchTab(tabId, btnElement) {
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => {
+        content.style.display = 'none';
+      });
+
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      document.getElementById('tab-' + tabId).style.display = 'block';
+      btnElement.classList.add('active');
+    }
 
     /* GitHub 圖片抓取邏輯 */
     (function() {
