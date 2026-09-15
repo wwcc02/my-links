@@ -326,7 +326,7 @@
     .jumping-star:nth-child(7) { animation-delay: 0.9s; }
 
     /* ----------------------------------------------------- */
-    /* 6. 【頁尾精巧 YouTube 音樂播放器 Bar（維持原樣式）】 */
+    /* 6. 【頁尾精巧 YouTube 音樂播放器 Bar】 */
     /* ----------------------------------------------------- */
     .retro-audio-player-bar {
       position: fixed;
@@ -350,8 +350,28 @@
     .player-left-group {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       flex-shrink: 0;
+    }
+
+    /* 播放器控制按鈕群組（統一純黑白） */
+    .player-ctrl-btn {
+      font-size: 11px;
+      min-width: 26px;
+      height: 26px;
+      padding: 0 4px;
+      border: 2px solid #ffffff;
+      background: #000000;
+      color: #ffffff;
+      font-family: monospace;
+      font-weight: bold;
+      text-align: center;
+      line-height: 22px;
+      cursor: pointer;
+    }
+    .player-ctrl-btn:hover {
+      background: #ffffff;
+      color: #000000;
     }
 
     #songSelector {
@@ -361,7 +381,7 @@
       font-family: monospace;
       font-size: 11px;
       padding: 3px 4px;
-      max-width: 130px;
+      max-width: 120px;
       outline: none;
     }
 
@@ -433,14 +453,14 @@
         display: none !important;
       }
       #songSelector {
-        max-width: 95px;
+        max-width: 80px;
         font-size: 10px;
       }
       .player-right-group span {
         display: none;
       }
       #volumeBar {
-        width: 45px !important;
+        width: 40px !important;
       }
     }
   </style>
@@ -506,7 +526,7 @@
       <a href="https://home.gamer.com.tw/profile/index_feed.php?owner=claen1115" target="_blank">☆ bahamut ☆</a>
       <a href="https://www.facebook.com/XxclaenxX/" target="_blank">★ facebook personal ☆</a>
       <a href="https://www.facebook.com/claenyinling/" target="_blank">★ facebook fanpage ☆</a>
-      <a href="https://www.instagram.com/xxclaenxx/" target="_blank">☆ instagram ☆</a>
+      <a href="https://www.instagram.com/xxclaenxx/" target="_blank">★ instagram ☆</a>
       <a href="https://www.threads.com/@xxclaenxx" target="_blank">☆ threads ☆</a>
       <a href="https://www.plurk.com/Xx_claen_xX" target="_blank">★ plurk ☆</a>
       <a href="https://bsky.app/profile/xxclaenxx.bsky.social" target="_blank">☆ bluesky ☆</a>
@@ -548,16 +568,18 @@
   </div>
 
   <!-- ----------------------------------------------------- -->
-  <!-- 頁尾精巧 YouTube 音樂播放器 Bar (融合 Copilot 觸發概念) -->
+  <!-- 頁尾精巧 YouTube 音樂播放器 Bar -->
   <!-- ----------------------------------------------------- -->
   <div id="player" style="display:none;"></div>
 
   <div class="retro-audio-player-bar">
     <div class="player-left-group">
-      <button id="musicToggle" onclick="toggleMusic()" title="播放/暫停"
-        style="font-size:12px; min-width:32px; padding:4px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center;">
-        ❚❚
-      </button>
+      <!-- 上一首按鈕 -->
+      <button class="player-ctrl-btn" onclick="prevSong()" title="上一首">⏮</button>
+      <!-- 播放/暫停按鈕 -->
+      <button id="musicToggle" class="player-ctrl-btn" onclick="toggleMusic()" title="播放/暫停">❚❚</button>
+      <!-- 下一首按鈕 -->
+      <button class="player-ctrl-btn" onclick="nextSong()" title="下一首">⏭</button>
 
       <select id="songSelector" onchange="changeSong()">
         <option value="0">Gazette - Silly God Disco</option>
@@ -584,10 +606,8 @@
       <span style="font-size:11px; color:#888;">VOL</span>
       <input type="range" id="volumeBar" value="50" min="0" max="100" step="1" style="width:55px;" />
       <span id="volumeValue" style="font-size:11px; color:#ffffff; width:28px;">50%</span>
-      <button id="muteToggle" onclick="toggleMute()" title="靜音"
-        style="font-size:11px; padding:3px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace;">
-        靜音
-      </button>
+      <!-- 靜音圖標按鈕（純黑白） -->
+      <button id="muteToggle" class="player-ctrl-btn" onclick="toggleMute()" title="靜音">🔊</button>
     </div>
   </div>
 
@@ -919,7 +939,7 @@
     })();
 
     /* ===================================================== */
-    /* YouTube 播放器邏輯（整合 Copilot 首次互動解鎖機制） */
+    /* YouTube 播放器邏輯 */
     /* ===================================================== */
     let player;
     let isPlaying = true;
@@ -952,7 +972,6 @@
             updateButtonStyle(true);
             document.getElementById("songSelector").value = currentIndex;
             
-            // 參考 Copilot 版本：監聽全域第一次點擊，解鎖行動裝置與瀏覽器的自動播放限制
             const unlockAutoplay = () => {
               if (player && typeof player.playVideo === "function") {
                 player.playVideo();
@@ -969,9 +988,7 @@
           },
           onStateChange: function (event) {
             if (event.data === YT.PlayerState.ENDED) {
-              currentIndex = (currentIndex + 1) % playlist.length;
-              player.loadVideoById(playlist[currentIndex]);
-              document.getElementById("songSelector").value = currentIndex;
+              nextSong();
             }
           }
         }
@@ -989,6 +1006,26 @@
         isPlaying = true;
       }
       updateButtonStyle(isPlaying);
+    }
+
+    function nextSong() {
+      currentIndex = (currentIndex + 1) % playlist.length;
+      if (player && typeof player.loadVideoById === "function") {
+        player.loadVideoById(playlist[currentIndex]);
+        document.getElementById("songSelector").value = currentIndex;
+        isPlaying = true;
+        updateButtonStyle(true);
+      }
+    }
+
+    function prevSong() {
+      currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+      if (player && typeof player.loadVideoById === "function") {
+        player.loadVideoById(playlist[currentIndex]);
+        document.getElementById("songSelector").value = currentIndex;
+        isPlaying = true;
+        updateButtonStyle(true);
+      }
     }
 
     function changeSong() {
@@ -1073,13 +1110,13 @@
       if (muted) {
         muteButton.style.background = "#ffffff";
         muteButton.style.color = "#000000";
-        muteButton.style.border = "2px solid #000000";
-        muteButton.innerText = "解除";
+        muteButton.style.border = "2px solid #ffffff";
+        muteButton.innerText = "🔇";
       } else {
         muteButton.style.background = "#000000";
         muteButton.style.color = "#ffffff";
         muteButton.style.border = "2px solid #ffffff";
-        muteButton.innerText = "靜音";
+        muteButton.innerText = "🔊";
       }
     }
   </script>
