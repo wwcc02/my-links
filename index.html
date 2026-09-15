@@ -220,6 +220,66 @@
       letter-spacing: 2px;
     }
 
+    /* More About Me 彈跳視窗樣式 */
+    #about-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(6px);
+      z-index: 9500;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    .about-content-box {
+      width: 90%;
+      max-width: 650px;
+      height: 80vh;
+      background: rgba(0, 0, 0, 0.95);
+      border: 2px solid #ffffff;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 25px rgba(255,255,255,0.2);
+    }
+    .about-body {
+      flex: 1;
+      overflow-y: auto;
+      font-size: 12px;
+      line-height: 1.8;
+      color: #ccc;
+      padding-right: 10px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .about-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    .about-body::-webkit-scrollbar-thumb {
+      background: #ffffff;
+    }
+    .about-close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 16px;
+      color: #aaa;
+      background: transparent;
+      border: 1px solid #aaa;
+      padding: 2px 8px;
+      font-family: monospace;
+      cursor: pointer;
+    }
+    .about-close-btn:hover {
+      color: #fff;
+      border-color: #fff;
+      background: #222;
+    }
+
     .center-text-block {
       flex: 1.2;
       max-width: 420px;
@@ -355,7 +415,6 @@
       flex-shrink: 0;
     }
 
-    /* 播放器控制按鈕群組 */
     .player-ctrl-btn {
       font-size: 11px;
       min-width: 26px;
@@ -378,7 +437,6 @@
       color: #000000;
     }
     
-    /* SVG 向量圖示自適應與變色控制 */
     .player-ctrl-btn svg {
       width: 14px;
       height: 14px;
@@ -493,6 +551,172 @@
     <div id="lb-counter">1 / 1</div>
   </div>
 
+  <!-- More About Me 彈跳視窗 -->
+  <div id="about-modal">
+    <div class="about-content-box">
+      <button class="about-close-btn" id="about-close">✕ CLOSE</button>
+      <div style="font-size: 15px; font-weight: bold; border-bottom: 1px dashed #ffffff; padding-bottom: 6px; margin-bottom: 14px; letter-spacing: 2px;">✟ more about me ✟</div>
+      <div class="about-body">•°•喜愛ㄉ虛擬歌手•°•
+
+◇VOCALOID：
+ 初音ミク、KAITO、VY2、歌音ピコ、Gakupo、氷山キヨテル、鏡音レン、鏡音リント、Gumi、Dex
+
+◆FANLOID：
+ 初音ミクオ、巡音ルキ、AKAITO、TAITO、ZEITO、BAITO、鏡音リント、鏡音レンカ、Gumiya
+
+◇UTAU：
+ 松田っぽいよ、松田っぽいね、瑞歌ミズキ、月代はくぽ、湯鬱声からす、紫音月疾風、漁夫、屈原、夏語遙、夏言律、喬安、奧斯卡、雨音沉、萌約玲、萌約寧、紫音月疾風
+
+◆DEEPVOCAL：
+ 噓歌まふ
+
+•°•喜愛ㄉ作品•°•
+
+◇PC GAMES：
+ We Dance Online 唯舞獨尊
+ TOUCH 炫舞
+ ClubMstar
+ osu!
+ UNLIGHT: Revive
+ Aura Kingdom 幻想神域
+ Tower Of Fantasy 幻塔
+ Wuthering Waves 鳴潮
+ Punishing: Gray Raven 戰雙帕彌什
+ Epic Seven 第七史詩
+ Etheria 伊瑟
+ Persona 5: The Phantom X 女神異聞錄：夜幕魅影
+
+◆BROWSER GAMES：
+ Pony Town 小馬鎮
+
+◇PLAYSTATION GAMES：
+ BLACK★ROCK SHOOTER THE GAME 黑岩射手
+ PSO2NGS 夢幻之星2：新世紀
+ Final FantasyXV 最終幻想XV
+ Sonic Frontiers 音速小子 未知邊境
+ Sonic Racing: CrossWorlds 索尼克賽車 交叉世界
+ Sonic Racing: CrossWorlds 音速小子賽車 交叉世界
+ Hatsune Miku: Project Diva、 X、Future Tone、Future Tone DX 初音未來：名伶計畫X、Future Tone、Future Tone DX
+ Brothers Conflict Brilliant Blue 兄弟鬥爭 光輝燦藍
+
+◆MOBILE GAMES：
+ Cytus
+ Cytus II
+ Crash Fever
+ Compass
+ Implosion 聚爆
+ Blazblue Entropy Effect蒼翼：混沌效應
+ Cyber Parkour 電馭跑酷
+ DISSDIA FF
+
+◇Waiting：
+ Ananda 無限大
+ Silver Palace 白銀之城
+ Brothers Conflict Passion Pink 兄弟鬥爭 激情粉紅
+
+Favorite game, We Dance Online 最愛的是唯舞獨尊
+
+
+◆較深坑：
+ 魔法科高校的劣等生、Little Busters！、緋色的欠片、兄弟鬥爭、吸血鬼僕人、吸血鬼騎士、K、暗殺教室、妖怪少爺、卡片戰鬥！先導者、革命機Valvrave、排球少年、MAO摩緒、特殊傳說、玄日狩、非關英雄、暴走之歌、吾命騎士、風動鳴、光之祭司、我，精靈王，缺錢、國王遊戲
+
+•°•注意踩雷•°•
+
+◇雷點：
+ 小黃臉(真的很討厭，但會自行避雷)、某些流行語(是在哈囉、塑膠......)、yee、是台灣人卻用中國用詞和發音
+
+◆雷人的點：
+ 會耍中二(超偶爾)、多管閒事、顏文字、日本網路用語的笑(wwww)、講話有時莫名變得直接
+
+
+•°•有在嗑ㄉCP•°•
+
+◇魔法科高校的劣等生：
+ 達幹、西達、桐達、碧達
+
+◆Little Busters！：
+ 恭理、理鈴
+
+◇吸血鬼僕人：
+ 黑真、真黑、海黑、椿黑、櫻真
+
+◆吸血鬼騎士：
+ 樞零、縷零、鷹零、零優
+
+◇革命機Valvrave：
+ 晴艾
+
+◆卡片戰鬥！先導者：
+ 櫂愛、蓮愛
+
+◇緋色的欠片：
+ 拓珠
+
+◆暗殺教室：
+ 秀業、渚業、磯業、前業、寺業、烏業、殺業、榊學、業渚、業愛、業櫻
+
+◇兄弟鬥爭：
+ 風侑、椿侑、梓侑、棗侑、祈侑、昴侑、麻侑、侑麻
+
+◆炎炎消防隊：
+ 亞羅、櫻羅
+
+◇魔導少年：
+ 格納、史納、納露
+
+◆東京暗鴉：
+ 東春、春夏
+
+◇惡魔奶爸：
+ 東男、古男、男古
+
+◆惡魔的謎語：
+ 兔晴
+
+◇東京喰種：
+ 習研、雙研
+
+◆排球少年：
+ 及影、菅影、金影、國影、岩影、侑影、治影、研影、赤影、日影、月影、黑影、列影、澤影、忠影、影忠、影谷、月山、岩金、國金、松金、花金、及岩、青二、鐮二、黃二
+
+◇幽遊白書：
+ 藏幽、飛幽、桑幽、幽螢
+
+◆特殊傳說：
+ 冰漾、重漾、夏漾、安漾、利漾、哈漾、然漾、玥漾、千漾、休漾、衛漾、萊斯利亞漾、西漾、萊恩漾、夏冰、安冰、亞凡、深殊
+
+◇亂馬1/2：
+ 良亂、亂茜
+
+◆我推的孩子：
+ 光夸、露夸
+
+◇吾命騎士：
+ 格雷、雷格
+
+◆玄日狩：
+ 月炎、艾夜
+
+◇暴走之歌：
+ 希利
+
+◆風動鳴：
+ 羅艾、安艾、音艾、闇艾、艾音
+
+◇Gang Start：異世界極道傳說：
+ 冠秋、奧秋
+
+◆幻塔：
+ 夏琅
+
+◇鳴潮：
+ 忌漂♂、傷漂♂、卡漂♂、臨忌、卡忌
+
+◆崩壞：星穹鐵道：
+ 刃穹、景穹、桑穹、傑穹、丹穹、盧穹、納穹、藥穹、傑桑、桑盧</div>
+    </div>
+  </div>
+
   <!-- 暗黑系桌寵 -->
   <div id="text-pet" style="position:fixed; bottom:60px; right:20px; pointer-events:auto; z-index:99990; user-select:none; font-family:monospace; line-height:1.2; font-weight:bold; white-space:pre; background:transparent; transition: all 0.3s steps(4); padding: 4px;">
     <div id="pet-bubble" style="display: none; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: #000000; color: #ffffff; border: 1.5px solid #ffffff; padding: 4px 8px; font-size: 12px; border-radius: 4px; white-space: nowrap; font-family: sans-serif;"></div>
@@ -515,7 +739,11 @@
 
     <!-- 中欄：自介與超連結 -->
     <div class="center-text-block">
-      <div style="font-size: 20px; border-bottom: 1px dashed #ffffff; padding-bottom: 6px; letter-spacing: 2px; font-weight: bold;">✟ 𝖈𝖑𝖆𝖊𝖓 ✟</div>
+      <div style="position: relative; border-bottom: 1px dashed #ffffff; padding-bottom: 6px; margin-bottom: 4px;">
+        <span style="font-size: 20px; font-weight: bold; letter-spacing: 2px;">𝖈𝖑𝖆𝖊𝖓</span>
+        <!-- 右上角低調的 More About Me 按鈕 -->
+        <button id="open-about-btn" style="position: absolute; right: 0; bottom: 6px; background: transparent; border: none; color: #777777; font-family: monospace; font-size: 10px; cursor: pointer; letter-spacing: 0.5px; transition: color 0.2s;">more about me ✟</button>
+      </div>
       
       <p style="font-size: 13px; line-height: 1.8; color: #ccc;">
         ✦ 屬性：千禧靈魂 ∕ 廢柴惡魔阿宅<br>
@@ -635,7 +863,7 @@
       <!-- 向量 SVG 靜音按鈕 -->
       <button id="muteToggle" class="player-ctrl-btn" onclick="toggleMute()" title="靜音">
         <svg viewBox="0 0 24 24">
-          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77-2.99-7.86-7-8.77z"/>
         </svg>
       </button>
     </div>
@@ -644,6 +872,36 @@
   <div id="retro-cursor-main" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999999; user-select: none; display: none; color: #ffffff !important; font-size: 24px; font-family: monospace; line-height: 1; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold; background: transparent !important; width: 24px; height: 24px; text-align: center;">◆</div>
 
   <script>
+    /* More About Me 彈跳視窗開關控制 */
+    (function() {
+      const openBtn = document.getElementById('open-about-btn');
+      const closeBtn = document.getElementById('about-close');
+      const aboutModal = document.getElementById('about-modal');
+
+      if (!openBtn || !aboutModal) return;
+
+      openBtn.addEventListener('click', () => {
+        aboutModal.style.display = 'flex';
+      });
+
+      closeBtn.addEventListener('click', () => {
+        aboutModal.style.display = 'none';
+      });
+
+      aboutModal.addEventListener('click', (e) => {
+        if (e.target === aboutModal) {
+          aboutModal.style.display = 'none';
+        }
+      });
+      
+      openBtn.addEventListener('mouseenter', () => {
+        openBtn.style.color = '#ffffff';
+      });
+      openBtn.addEventListener('mouseleave', () => {
+        openBtn.style.color = '#777777';
+      });
+    })();
+
     /* GitHub 圖片抓取邏輯 */
     (function() {
       const gallery = document.getElementById('github-gallery');
@@ -1141,7 +1399,6 @@
         muteButton.style.background = "#ffffff";
         muteButton.style.color = "#000000";
         muteButton.style.border = "2px solid #ffffff";
-        // 靜音 SVG 圖示
         muteButton.innerHTML = `
           <svg viewBox="0 0 24 24">
             <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C22.63 14.9 23 13.5 23 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
@@ -1151,10 +1408,9 @@
         muteButton.style.background = "#000000";
         muteButton.style.color = "#ffffff";
         muteButton.style.border = "2px solid #ffffff";
-        // 正常聲音 SVG 圖示
         muteButton.innerHTML = `
           <svg viewBox="0 0 24 24">
-            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77-2.99-7.86-7-8.77z"/>
           </svg>
         `;
       }
