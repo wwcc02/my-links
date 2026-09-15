@@ -61,7 +61,6 @@
       line-height: 1;
       pointer-events: none;
       user-select: none;
-      /* 讓閃爍動畫無限循環，不會停下來 */
       animation: retroBlink 2.2s steps(1) infinite;
     }
 
@@ -267,7 +266,7 @@
       background: #ffffff;
     }
 
-    /* 右欄：即時狀態與 Cbox 留言板（高度 720px） */
+    /* 右欄：即時狀態與放大版 Cbox 留言板（高度 720px） */
     .right-pet-block {
       flex: 1.1;
       max-width: 320px;
@@ -276,11 +275,11 @@
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
-      padding: 16px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px;
       box-shadow: 0 0 15px rgba(255,255,255,0.05);
       overflow-y: auto;
     }
@@ -296,18 +295,18 @@
     }
 
     .status-title {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
       border-bottom: 1px dashed #ffffff;
-      padding-bottom: 4px;
-      margin-bottom: 8px;
+      padding-bottom: 3px;
+      margin-bottom: 5px;
       letter-spacing: 1px;
     }
 
     .status-item {
       font-size: 11px;
-      line-height: 1.5;
-      margin-bottom: 6px;
+      line-height: 1.4;
+      margin-bottom: 4px;
       color: #ccc;
     }
 
@@ -336,11 +335,11 @@
     .jumping-stars-box {
       border: 1px dashed #555;
       background: rgba(0, 0, 0, 0.3);
-      padding: 8px 12px;
+      padding: 6px 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-top: 2px;
     }
 
     @keyframes jumpStarAnim {
@@ -350,7 +349,7 @@
 
     .jumping-star {
       display: inline-block;
-      font-size: 14px;
+      font-size: 13px;
       animation: jumpStarAnim 1s ease-in-out infinite;
     }
     .jumping-star:nth-child(1) { animation-delay: 0.0s; }
@@ -565,7 +564,7 @@
       </div>
     </div>
 
-    <!-- 右欄：即時狀態 + Cbox 留言板 + 橫向填滿跳動星星 -->
+    <!-- 右欄：即時狀態 + 放大版 Cbox 留言板 + 橫向填滿跳動星星 -->
     <div class="right-pet-block">
       <div>
         <div class="status-title">✟ current status ✟</div>
@@ -575,10 +574,10 @@
         </div>
       </div>
 
-      <!-- Cbox 留言板 -->
-      <div style="border: 1px solid #333; background: rgba(0, 0, 0, 0.5);">
-        <div style="font-size: 11px; color: #888; padding: 4px; text-align: center; border-bottom: 1px dashed #333;">✟ guestbook ✟</div>
-        <iframe src="https://www3.cbox.ws/box/?boxid=3560409&boxtag=ZOM8GA" width="100%" height="220" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
+      <!-- Cbox 留言板（高度放大） -->
+      <div style="border: 1px solid #333; background: rgba(0, 0, 0, 0.5); flex: 1; display: flex; flex-direction: column;">
+        <div style="font-size: 11px; color: #888; padding: 3px; text-align: center; border-bottom: 1px dashed #333;">✟ guestbook ✟</div>
+        <iframe src="https://www3.cbox.ws/box/?boxid=3560409&boxtag=ZOM8GA" width="100%" height="100%" style="flex: 1; min-height: 420px;" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
       </div>
 
       <!-- 跳動星星裝飾 -->
@@ -937,7 +936,7 @@
       });
     })();
 
-    /* 十字星飄落與持續頓挫閃爍（修正版） */
+    /* 十字星飄落與持續頓挫閃爍 */
     (function() {
       const container = document.getElementById('star-fall-container');
       if (!container) return;
@@ -951,16 +950,14 @@
         const baseSize = Math.floor(Math.random() * 18) + 8; 
         star.style.fontSize = baseSize + 'px';
         
-        const fallDuration = Math.random() * 10 + 15; // 掉落時間 (15s ~ 25s)
-        const blinkDuration = (Math.random() * 1.4 + 2.0).toFixed(2); // 閃爍頻率維持慢速 (2.0s ~ 3.4s)
+        const fallDuration = Math.random() * 10 + 15; 
+        const blinkDuration = (Math.random() * 1.4 + 2.0).toFixed(2); 
         
-        // 賦予專屬的慢速閃爍頻率
         star.style.animationDuration = `${blinkDuration}s`;
         star.style.animationName = 'retroBlink';
         star.style.animationTimingFunction = 'steps(1)';
         star.style.animationIterationCount = 'infinite';
 
-        // 使用 Web Animations API 處理等速直線下墬，確保從頂到底一路掉完且持續閃爍
         star.animate([
           { top: '-10vh', transform: 'translateX(0)' },
           { top: '110vh', transform: 'translateX(35px)' }
