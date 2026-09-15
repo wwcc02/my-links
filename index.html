@@ -16,13 +16,22 @@
     }
     html, body {
       width: 100%;
-      min-height: 100%;
+      min-height: 100vh;
       background-color: #000000 !important;
       user-select: none;
       font-family: monospace;
       color: #ffffff;
       position: relative;
     }
+    /* 讓 body 變成彈性盒子，使整頁內容垂直、水平置中並預留底部播放器空間 */
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 60px; /* 預留底部播放器高度 */
+    }
+
     @media (min-width: 901px) {
       html, body, a, button, input, select, textarea {
         cursor: none !important;
@@ -76,8 +85,7 @@
       justify-content: center;
       position: relative;
       z-index: 10;
-      padding-top: 30px;
-      padding-bottom: 20px;
+      margin-bottom: 15px; /* 改用 margin 保持完美置中節奏 */
     }
 
     .castle-title-main {
@@ -104,7 +112,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0 20px 70px 20px;
+      padding: 0 20px;
       gap: 20px;
       position: relative;
       z-index: 10;
@@ -550,10 +558,14 @@
     }
 
     @media (max-width: 900px) {
+      body {
+        justify-content: flex-start; /* 手機版維持正常由上往下排版 */
+        padding-bottom: 70px;
+      }
       .main-castle-container {
         flex-direction: column;
         height: auto;
-        padding: 0 15px 70px 15px;
+        padding: 0 15px;
         gap: 15px;
       }
       .left-art-block, .center-text-block, .right-pet-block {
