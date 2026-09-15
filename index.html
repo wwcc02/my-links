@@ -29,7 +29,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 2. 【第二層透明圖片背景疊加層（調暗版）】 */
+    /* 2. 【第二層透明圖片背景疊加層（右側為準）】 */
     /* ----------------------------------------------------- */
     .second-layer-bg {
       position: fixed;
@@ -39,7 +39,7 @@
       height: 100vh;
       background-image: url('https://files.catbox.moe/d1f5qq.png');
       background-size: cover; 
-      background-position: center;
+      background-position: right center;
       background-repeat: no-repeat;
       opacity: 0.18;
       pointer-events: none;
@@ -47,7 +47,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 3. 【古早味十字星飄落與慢速一幀一滅頓挫閃爍樣式】 */
+    /* 3. 【古早味十字星飄落與閃爍樣式】 */
     /* ----------------------------------------------------- */
     @keyframes retroBlink {
       0%, 25%, 50%, 75%, 100% { opacity: 0; transform: scale(0.6); }
@@ -96,7 +96,7 @@
     }
 
     /* ----------------------------------------------------- */
-    /* 5. 【Flexbox 三欄式排版（桌機預設）】 */
+    /* 5. 【Flexbox 三欄式排版】 */
     /* ----------------------------------------------------- */
     .main-castle-container {
       width: 100%;
@@ -109,7 +109,6 @@
       z-index: 10;
     }
 
-    /* 左欄：動態抓取 GitHub 資料夾插畫區（高度 720px） */
     .left-art-block {
       flex: 1;
       max-width: 330px;
@@ -152,8 +151,6 @@
       background: #fff;
       color: #000;
     }
-    #prevArt { left: 10px; }
-    #nextArt { right: 10px; }
 
     .zoom-hint {
       position: absolute;
@@ -169,9 +166,7 @@
       text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95);
     }
 
-    /* ----------------------------------------------------- */
-    /* 6. 【全螢幕燈箱 (Lightbox) 檢視器】 */
-    /* ----------------------------------------------------- */
+    /* 燈箱 Modal */
     #lightbox-modal {
       position: fixed;
       top: 0;
@@ -180,22 +175,18 @@
       height: 100vh;
       background: rgba(0, 0, 0, 0.92);
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       z-index: 9000;
       display: none;
       justify-content: center;
       align-items: center;
       flex-direction: column;
     }
-
     #lightbox-img {
       max-width: 85vw;
       max-height: 80vh;
       object-fit: contain;
       border: 2px solid #ffffff;
-      box-shadow: 0 0 25px rgba(255,255,255,0.2);
     }
-
     .lightbox-close {
       position: absolute;
       top: 20px;
@@ -207,11 +198,6 @@
       padding: 2px 12px;
       font-family: monospace;
     }
-    .lightbox-close:hover {
-      background: #fff;
-      color: #000;
-    }
-
     .lightbox-nav {
       position: absolute;
       top: 50%;
@@ -223,13 +209,8 @@
       padding: 10px 16px;
       font-family: monospace;
     }
-    .lightbox-nav:hover {
-      background: #fff;
-      color: #000;
-    }
     #lb-prev { left: 20px; }
     #lb-next { right: 20px; }
-
     #lb-counter {
       position: absolute;
       bottom: 20px;
@@ -238,7 +219,6 @@
       letter-spacing: 2px;
     }
 
-    /* 中欄：自介與超連結（高度 720px） */
     .center-text-block {
       flex: 1.2;
       max-width: 420px;
@@ -254,19 +234,13 @@
       gap: 14px;
       overflow-y: auto;
     }
-
     .center-text-block::-webkit-scrollbar {
       width: 6px;
-    }
-    .center-text-block::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.2);
-      border-left: 1px dashed #333;
     }
     .center-text-block::-webkit-scrollbar-thumb {
       background: #ffffff;
     }
 
-    /* 右欄：即時狀態與放大版 Cbox 留言板（高度 720px） */
     .right-pet-block {
       flex: 1.1;
       max-width: 320px;
@@ -280,15 +254,10 @@
       flex-direction: column;
       justify-content: space-between;
       gap: 8px;
-      box-shadow: 0 0 15px rgba(255,255,255,0.05);
       overflow-y: auto;
     }
-
     .right-pet-block::-webkit-scrollbar {
       width: 4px;
-    }
-    .right-pet-block::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.2);
     }
     .right-pet-block::-webkit-scrollbar-thumb {
       background: #ffffff;
@@ -302,14 +271,12 @@
       margin-bottom: 5px;
       letter-spacing: 1px;
     }
-
     .status-item {
       font-size: 11px;
       line-height: 1.4;
       margin-bottom: 4px;
       color: #ccc;
     }
-
     .status-item span {
       color: #fff;
       font-weight: bold;
@@ -331,7 +298,6 @@
       text-decoration: none;
     }
 
-    /* 跳動星星裝飾區塊樣式（橫向均分填滿） */
     .jumping-stars-box {
       border: 1px dashed #555;
       background: rgba(0, 0, 0, 0.3);
@@ -346,7 +312,6 @@
       0%, 100% { transform: translateY(0); opacity: 0.5; }
       50% { transform: translateY(-5px); opacity: 1; text-shadow: 0 0 8px #fff; }
     }
-
     .jumping-star {
       display: inline-block;
       font-size: 13px;
@@ -361,15 +326,15 @@
     .jumping-star:nth-child(7) { animation-delay: 0.9s; }
 
     /* ----------------------------------------------------- */
-    /* 7. 【頁尾 YouTube 音樂播放器 Bar】 */
+    /* 6. 【頁尾精巧 YouTube 音樂播放器 Bar（維持原樣式）】 */
     /* ----------------------------------------------------- */
     .retro-audio-player-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 48px;
-      background: rgba(0, 0, 0, 0.9);
+      height: 52px;
+      background: rgba(0, 0, 0, 0.92);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
       border-top: 1px solid #ffffff;
@@ -377,7 +342,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 12px;
-      gap: 10px;
+      gap: 8px;
       z-index: 999;
       font-size: 12px;
     }
@@ -385,7 +350,7 @@
     .player-left-group {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       flex-shrink: 0;
     }
 
@@ -396,7 +361,7 @@
       font-family: monospace;
       font-size: 11px;
       padding: 3px 4px;
-      max-width: 110px;
+      max-width: 130px;
       outline: none;
     }
 
@@ -427,9 +392,6 @@
       background: #ffffff;
     }
 
-    /* ----------------------------------------------------- */
-    /* 8. 【Y2K 連結懸停樣式】 */
-    /* ----------------------------------------------------- */
     a {
       color: #ffffff;
       text-decoration: none;
@@ -452,12 +414,9 @@
     .cursor-snow-star {
       position: fixed; pointer-events: none; user-select: none; z-index: 999999; color: #ffffff !important; font-family: sans-serif; line-height: 1; background: transparent !important; font-weight: bold;
       animation: retroCursorBlink 0.3s steps(2) infinite, snowflakeFall 0.6s linear forwards;
-      mix-blend-mode: difference !important; filter: grayscale(1) !important; -webkit-filter: grayscale(1) !important;
+      mix-blend-mode: difference !important; filter: grayscale(1) !important;
     }
 
-    /* ----------------------------------------------------- */
-    /* 9. 【手機響應式 RWD 斷點設定】 */
-    /* ----------------------------------------------------- */
     @media (max-width: 900px) {
       .main-castle-container {
         flex-direction: column;
@@ -474,7 +433,7 @@
         display: none !important;
       }
       #songSelector {
-        max-width: 90px;
+        max-width: 95px;
         font-size: 10px;
       }
       .player-right-group span {
@@ -503,17 +462,13 @@
     <div id="lb-counter">1 / 1</div>
   </div>
 
-  <!-- ======================================================= -->
-  <!-- 【暗黑系桌寵：小惡魔 ✟】 -->
-  <!-- ======================================================= -->
+  <!-- 暗黑系桌寵 -->
   <div id="text-pet" style="position:fixed; bottom:60px; right:20px; pointer-events:auto; z-index:99990; user-select:none; font-family:monospace; line-height:1.2; font-weight:bold; white-space:pre; background:transparent; transition: all 0.3s steps(4); padding: 4px;">
-    <div id="pet-bubble" style="display: none; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: #000000; color: #ffffff; border: 1.5px solid #ffffff; padding: 4px 8px; font-size: 12px; border-radius: 4px; white-space: nowrap; text-shadow: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); font-family: sans-serif;"></div>
+    <div id="pet-bubble" style="display: none; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: #000000; color: #ffffff; border: 1.5px solid #ffffff; padding: 4px 8px; font-size: 12px; border-radius: 4px; white-space: nowrap; font-family: sans-serif;"></div>
     <span id="pet-body" style="color:#ffffff; font-size:14px; display: block; text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000, -1.5px 0px 0 #000, 1.5px 0px 0 #000, 0px -1.5px 0 #000, 0px 1.5px 0 #000, 0 0 5px #000000, 0 0 9px #000000, 0 0 12px rgba(0,0,0,0.95); font-weight: bold;"></span>
   </div>
 
-  <!-- ======================================================= -->
-  <!-- 【全頁頂部 Header 獨立大標題】 -->
-  <!-- ======================================================= -->
+  <!-- 全頁頂部 Header 標題 -->
   <header class="castle-header">
     <div class="castle-title-main">✟ 𝖈𝖑𝖆𝖊𝖓 ✟</div>
     <div class="castle-title-line"></div>
@@ -522,19 +477,19 @@
   <!-- 三欄式主舞台 -->
   <div class="main-castle-container">
     
-    <!-- 左欄：動態 GitHub 資料夾圖片展示區 -->
+    <!-- 左欄：GitHub 圖片展示區 -->
     <div class="left-art-block" id="github-gallery">
       <div style="font-size: 13px; color: #aaa; text-align: center; letter-spacing: 1px;">✟ 正在讀取<br>GitHub 資料夾圖庫... ✟</div>
     </div>
 
-    <!-- 中欄：自介與社群連結 -->
+    <!-- 中欄：自介與超連結 -->
     <div class="center-text-block">
       <div style="font-size: 20px; border-bottom: 1px dashed #ffffff; padding-bottom: 6px; letter-spacing: 2px; font-weight: bold;">✟ 𝖈𝖑𝖆𝖊𝖓 ✟</div>
       
       <p style="font-size: 13px; line-height: 1.8; color: #ccc;">
         ✦ 屬性：千禧靈魂 ∕ 廢柴惡魔阿宅<br>
         ✦ 時空：1990－2010 復古滯留者<br>
-        ✦ 信仰：Emo ‧ Gothic ‧ Y2K ‧ Visual Kei ‧ 種村有菜風<br>
+        ✦ 信仰：Emo ‧ Gothic ‧ Y2K ‧ Visual Kei ‧ 種村有菜美學<br>
         ✦ 技能：Gaming ∕ Singing ∕ Drawing ∕ Writing
       </p>
 
@@ -564,7 +519,7 @@
       </div>
     </div>
 
-    <!-- 右欄：即時狀態 + 放大版 Cbox 留言板 + 橫向填滿跳動星星 -->
+    <!-- 右欄：即時狀態 + 留言板 -->
     <div class="right-pet-block">
       <div>
         <div class="status-title">✟ current status ✟</div>
@@ -574,13 +529,11 @@
         </div>
       </div>
 
-      <!-- Cbox 留言板（高度放大） -->
       <div style="border: 1px solid #333; background: rgba(0, 0, 0, 0.5); flex: 1; display: flex; flex-direction: column;">
         <div style="font-size: 11px; color: #888; padding: 3px; text-align: center; border-bottom: 1px dashed #333;">✟ guestbook ✟</div>
         <iframe src="https://www3.cbox.ws/box/?boxid=3560409&boxtag=ZOM8GA" width="100%" height="100%" style="flex: 1; min-height: 420px;" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
       </div>
 
-      <!-- 跳動星星裝飾 -->
       <div class="jumping-stars-box">
         <span class="jumping-star">✦</span>
         <span class="jumping-star">✧</span>
@@ -595,25 +548,15 @@
   </div>
 
   <!-- ----------------------------------------------------- -->
-  <!-- 頁尾 YouTube 音樂播放器 Bar -->
+  <!-- 頁尾精巧 YouTube 音樂播放器 Bar (融合 Copilot 觸發概念) -->
   <!-- ----------------------------------------------------- -->
   <div id="player" style="display:none;"></div>
 
   <div class="retro-audio-player-bar">
     <div class="player-left-group">
-      <button id="prevSongBtn" onclick="prevSong()" title="上一首"
-        style="font-size:12px; min-width:26px; padding:3px 5px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center;">
-        ⏮
-      </button>
-
       <button id="musicToggle" onclick="toggleMusic()" title="播放/暫停"
-        style="font-size:12px; min-width:30px; padding:3px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center;">
+        style="font-size:12px; min-width:32px; padding:4px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center;">
         ❚❚
-      </button>
-
-      <button id="nextSongBtn" onclick="nextSongManual()" title="下一首"
-        style="font-size:12px; min-width:26px; padding:3px 5px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace; font-weight:bold; text-align:center;">
-        ⏭
       </button>
 
       <select id="songSelector" onchange="changeSong()">
@@ -631,23 +574,19 @@
       </select>
     </div>
 
-    <!-- 進度條區塊 -->
+    <!-- 進度條 -->
     <div class="player-center-group">
       <input type="range" id="progressBar" value="0" min="0" max="100" step="1" style="width:100%;" />
     </div>
 
+    <!-- 音量與靜音群組 -->
     <div class="player-right-group">
       <span style="font-size:11px; color:#888;">VOL</span>
       <input type="range" id="volumeBar" value="50" min="0" max="100" step="1" style="width:55px;" />
       <span id="volumeValue" style="font-size:11px; color:#ffffff; width:28px;">50%</span>
-      
-      <button id="muteToggle" onclick="toggleMute()" title="靜音切換"
-        style="width:28px; height:26px; padding:0; border:2px solid #ffffff; background:#000000; display:flex; align-items:center; justify-content:center;">
-        <svg id="muteIconSvg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-        </svg>
+      <button id="muteToggle" onclick="toggleMute()" title="靜音"
+        style="font-size:11px; padding:3px 6px; border:2px solid #ffffff; background:#000000; color:#ffffff; font-family:monospace;">
+        靜音
       </button>
     </div>
   </div>
@@ -790,22 +729,11 @@
       ];
 
       const idleWanderQuotes = [
-        "啦啦啦～",
-        "嘟嚕嘟嘟～",
-        "啊哈哈～～",
-        "呦！！！",
-        "嗚呼！",
-        "喔呀喔呀～",
-        "牙類牙類～"
+        "啦啦啦～", "嘟嚕嘟嘟～", "啊哈哈～～", "呦！！！", "嗚呼！", "喔呀喔呀～", "牙類牙類～"
       ];
 
       const curiousQuotes = [
-        "這是在幹嘛？",
-        "不理我了嗎？",
-        "你人好像還不錯……",
-        "（一臉好奇）",
-        "我才沒有好奇你在幹嘛！",
-        "" 
+        "這是在幹嘛？", "不理我了嗎？", "你人好像還不錯……", "（一臉好奇）", "我才沒有好奇你在幹嘛！", ""
       ];
 
       petBody.innerHTML = idle2;
@@ -836,7 +764,6 @@
 
         if (isFollowingCursor) {
           pet.setAttribute('data-status', 'following');
-
           const randomQuote = curiousQuotes[Math.floor(Math.random() * curiousQuotes.length)];
           if (randomQuote && randomQuote.trim() !== "") {
             bubble.innerHTML = randomQuote;
@@ -844,7 +771,6 @@
           } else {
             bubble.style.display = 'none';
           }
-
           petBody.innerHTML = idle1; 
 
           const offsetX = (Math.random() - 0.5) * 180;
@@ -870,11 +796,9 @@
 
         } else {
           pet.setAttribute('data-status', 'wandering');
-          
           const randomWanderQuote = idleWanderQuotes[Math.floor(Math.random() * idleWanderQuotes.length)];
           bubble.innerHTML = randomWanderQuote;
           bubble.style.display = 'block';
-
           petBody.innerHTML = happy2;
 
           const newX = Math.floor(Math.random() * (window.innerWidth - 150)) + 20;
@@ -894,8 +818,7 @@
           }, 1500);
         }
 
-        const nextTime = Math.floor(Math.random() * 7000) + 9000;
-        setTimeout(triggerIdleWander, nextTime);
+        setTimeout(triggerIdleWander, Math.floor(Math.random() * 7000) + 9000);
       }
 
       setTimeout(triggerIdleWander, 10000);
@@ -914,8 +837,7 @@
           petBody.innerHTML = scared;
 
           if (Math.random() < 0.4) {
-            const randomQuote = scaredQuotes[Math.floor(Math.random() * scaredQuotes.length)];
-            bubble.innerHTML = randomQuote;
+            bubble.innerHTML = scaredQuotes[Math.floor(Math.random() * scaredQuotes.length)];
             bubble.style.display = 'block'; 
           }
 
@@ -936,7 +858,7 @@
       });
     })();
 
-    /* 十字星飄落與持續頓挫閃爍 */
+    /* 十字星飄落 */
     (function() {
       const container = document.getElementById('star-fall-container');
       if (!container) return;
@@ -973,7 +895,7 @@
       setInterval(createStar, spawnInterval);
     })();
 
-    /* 游標跟軌跡 (僅桌機) */
+    /* 游標跟軌跡 */
     (function() {
       if (window.innerWidth <= 900) return;
       const cursor = document.getElementById('retro-cursor-main');
@@ -996,7 +918,9 @@
       });
     })();
 
-    /* YouTube 播放器與控制邏輯 */
+    /* ===================================================== */
+    /* YouTube 播放器邏輯（整合 Copilot 首次互動解鎖機制） */
+    /* ===================================================== */
     let player;
     let isPlaying = true;
     let currentIndex;
@@ -1004,8 +928,8 @@
     let isMuted = false;
 
     const playlist = [
-      "5kHXg0PTMzk", "tl87LjR3910", "gpxyLpwRrsk", "OBKWCn9je-E", "NXGi8A3iG60",
-      "HP2RWTn2T8k", "ilzoDGcKF9M", "gdHO7yobgUk", "UgYJ66i_rCo", "fT4-R_8DmT0", "sB_1nw1GMjg"
+      "5kHXg0PTMzk","tl87LjR3910","gpxyLpwRrsk","OBKWCn9je-E","NXGi8A3iG60",
+      "HP2RWTn2T8k","ilzoDGcKF9M","gdHO7yobgUk","UgYJ66i_rCo","fT4-R_8DmT0","sB_1nw1GMjg"
     ];
 
     currentIndex = Math.floor(Math.random() * playlist.length);
@@ -1016,19 +940,36 @@
 
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
-        height: '0', width: '0', videoId: playlist[currentIndex],
+        height: '0',
+        width: '0',
+        videoId: playlist[currentIndex],
         playerVars: { autoplay: 1, controls: 0, modestbranding: 1, rel: 0 },
         events: {
-          onReady: function (event) {
-            event.target.playVideo();
+          onReady: function () {
+            player.playVideo();
             player.setVolume(50);
             document.getElementById("volumeValue").textContent = "50%";
             updateButtonStyle(true);
             document.getElementById("songSelector").value = currentIndex;
+            
+            // 參考 Copilot 版本：監聽全域第一次點擊，解鎖行動裝置與瀏覽器的自動播放限制
+            const unlockAutoplay = () => {
+              if (player && typeof player.playVideo === "function") {
+                player.playVideo();
+                isPlaying = true;
+                updateButtonStyle(true);
+              }
+              window.removeEventListener('click', unlockAutoplay);
+              window.removeEventListener('touchstart', unlockAutoplay);
+              window.removeEventListener('keydown', unlockAutoplay);
+            };
+            window.addEventListener('click', unlockAutoplay);
+            window.addEventListener('touchstart', unlockAutoplay);
+            window.addEventListener('keydown', unlockAutoplay);
           },
           onStateChange: function (event) {
             if (event.data === YT.PlayerState.ENDED) {
-              currentIndex = Math.floor(Math.random() * playlist.length);
+              currentIndex = (currentIndex + 1) % playlist.length;
               player.loadVideoById(playlist[currentIndex]);
               document.getElementById("songSelector").value = currentIndex;
             }
@@ -1055,26 +996,6 @@
       currentIndex = index;
       if (player && typeof player.loadVideoById === "function") {
         player.loadVideoById(playlist[index]);
-        isPlaying = true;
-        updateButtonStyle(true);
-      }
-    }
-
-    function prevSong() {
-      currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-      if (player && typeof player.loadVideoById === "function") {
-        player.loadVideoById(playlist[currentIndex]);
-        document.getElementById("songSelector").value = currentIndex;
-        isPlaying = true;
-        updateButtonStyle(true);
-      }
-    }
-
-    function nextSongManual() {
-      currentIndex = (currentIndex + 1) % playlist.length;
-      if (player && typeof player.loadVideoById === "function") {
-        player.loadVideoById(playlist[currentIndex]);
-        document.getElementById("songSelector").value = currentIndex;
         isPlaying = true;
         updateButtonStyle(true);
       }
@@ -1149,24 +1070,16 @@
 
     function updateMuteButtonStyle(muted) {
       const muteButton = document.getElementById("muteToggle");
-      const iconSvg = document.getElementById("muteIconSvg");
-      
       if (muted) {
         muteButton.style.background = "#ffffff";
+        muteButton.style.color = "#000000";
         muteButton.style.border = "2px solid #000000";
-        iconSvg.innerHTML = `
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="#ffffff" stroke="#000000" stroke-width="2"></polygon>
-          <line x1="23" y1="9" x2="17" y2="15" stroke="#000000" stroke-width="2.5"></line>
-          <line x1="17" y1="9" x2="23" y2="15" stroke="#000000" stroke-width="2.5"></line>
-        `;
+        muteButton.innerText = "解除";
       } else {
         muteButton.style.background = "#000000";
+        muteButton.style.color = "#ffffff";
         muteButton.style.border = "2px solid #ffffff";
-        iconSvg.innerHTML = `
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polygon>
-          <path d="M15.54 8.46a5 5 0 0 1 0 7.07" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
-        `;
+        muteButton.innerText = "靜音";
       }
     }
   </script>
